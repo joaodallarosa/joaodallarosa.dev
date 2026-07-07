@@ -1,0 +1,30 @@
+node_modules
+
+# Nuxt build/dev output (apps/site)
+.nuxt
+.output
+.nitro
+.cache
+.data
+
+# design-system build output
+dist
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Logs
+logs
+*.log
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.vscode
+.idea
+.fleet
+.DS_Store
+Thumbs.db

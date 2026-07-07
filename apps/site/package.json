@@ -1,0 +1,28 @@
+{
+  "name": "site",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "nuxt": "^4.4.8",
+    "vue": "^3.5.39",
+    "vue-router": "^5.1.0",
+    "@nuxt/content": "^3.15.0",
+    "zod": "^3.25.76",
+    "better-sqlite3": "^12.5.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.16.0",
+    "vue-tsc": "^3.3.6",
+    "typescript": "catalog:",
+    "eslint": "catalog:"
+  }
+}
