@@ -15,14 +15,19 @@
     "@nuxt/content": "^3.15.0",
     "@nuxtjs/i18n": "^10.4.0",
     "better-sqlite3": "^12.5.0",
+    "design-system": "workspace:*",
     "nuxt": "^4.4.8",
     "nuxt-studio": "1.7.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "vue": "^3.5.39",
     "vue-router": "^5.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.16.0",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
     "eslint": "catalog:",
     "typescript": "catalog:",
     "vue-tsc": "^3.3.6"

@@ -1,6 +1,6 @@
-# joao-website
+# About
 
-A personal publication with a working lab attached — dev projects, creative coding, and non-technical work (recipes, repairs, builds) under one voice, with an in-repo Web Components design system as a demonstration artifact.
+Personal blog with Web Components design system — dev projects, creative coding and other stuff.
 
 Full context, decisions, and phasing live in [PROJECT.md](./PROJECT.md) — read that first.
 

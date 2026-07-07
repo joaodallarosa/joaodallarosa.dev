@@ -1,0 +1,85 @@
+/*
+ * Global chrome styles: applies design tokens to plain semantic HTML
+ * (headings, prose, links, layout width). Deliberately separate from
+ * packages/design-system's component CSS — this is body content, which
+ * per PROJECT.md §3 stays outside any Shadow Root, but "outside Shadow DOM"
+ * doesn't mean "unstyled." Component-level styling still lives in
+ * packages/design-system; this file is the page-chrome equivalent.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--color-bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-reading);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-family-serif);
+  font-weight: var(--font-weight-display);
+  line-height: var(--line-height-headline);
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--font-size-3xl);
+}
+
+h2 {
+  margin-top: var(--space-8);
+  font-size: var(--font-size-2xl);
+}
+
+h3 {
+  font-size: var(--font-size-xl);
+}
+
+p {
+  margin: 0 0 var(--space-4);
+  max-width: 68ch;
+  color: var(--color-text-muted);
+}
+
+a {
+  color: var(--color-accent);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+code,
+pre {
+  font-family: var(--font-family-mono);
+  font-size: 0.9em;
+}
+
+ul,
+ol {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+}

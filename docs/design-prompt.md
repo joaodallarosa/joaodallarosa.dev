@@ -1,6 +1,6 @@
 # Design prompt (§6 step 1: define tokens/principles → draft the Design prompt → run it once)
 
-**Status: draft, not yet run.** No token values exist anywhere in this repo yet. Running the prompt below and transcribing its output into real token files in `packages/design-system` is Phase 1+ work — tracked as the start of Phase 2, not part of this doc.
+**Status: run 2026-07-08.** Output transcribed into `packages/design-system/src/tokens/tokens.css`. Rationale per dimension, the resolved color/type/spacing/motion/tone values, and the explicit tension resolution (matte-by-default, glass reserved for overlays) are preserved below for reference — this is the record of *why* the tokens are what they are, not just the prompt that produced them.
 
 ## Framing
 
@@ -112,6 +112,22 @@ A short rationale paragraph per dimension, followed by the concrete token values
 a form ready to transcribe into CSS custom properties / TS constants.
 ```
 
+## Output (run 2026-07-08)
+
+**Color.** Warm-tinted near-black neutrals (never pure black/white) — warmth reads as "instrument," not "screen," and fits Alien/synthesizers better than Tron's cold blue-black. One confident accent — phosphor amber (`#ffb000`) — chosen over cyan for its direct *Alien* CRT/warning-stripe lineage and because it sits better against warm neutrals. Four desaturated kind-badge hues (project/post/note/log) are a separate palette from the accent so badges never compete with it. Status (draft/published) uses a third, independent scheme — status must read at a glance regardless of kind.
+
+**Type.** Two families, not one: **Fraunces** (variable, editorial, used for both headlines and long-form body at different weights/optical sizes) and **JetBrains Mono** (code, Developer Mode overlays, UI labels). A single family risked flattening the intended editorial-vs-terminal tension.
+
+**Spacing.** One 4px-based scale (`--space-1` … `--space-10`), not two systems — small steps serve synth-panel precision, large steps serve editorial rhythm.
+
+**Motion.** Two registers on one scale: mechanical/snap (`--motion-duration-fast`/`-base`, `cubic-bezier(0.2, 0, 0, 1)`) for everyday micro-interactions, fluid/glass-like (`--motion-duration-slow`, `cubic-bezier(0.16, 1, 0.3, 1)`) reserved for overlay/depth moments only. `prefers-reduced-motion` collapses all durations to ≤20ms and drops transforms.
+
+**Tone.** "Playful but credible" = the synthesizer model: dry precision over cuteness. `Publish` / `Save draft`, not `Ship it! 🚀`.
+
+**The stated tension, resolved explicitly:** raw/matte (Brutalism/Alien/synth) is the default surface treatment everywhere; Liquid Glass translucency is reserved for transient overlays only (modals, lightbox, command palette) — never persistent content surfaces, and always under the `backdrop-filter` perf note in `docs/conventions.md`. Developer Mode's x-ray skin is the fullest expression of the brutalist register, not a bolted-on debug view — see `packages/design-system/src/utils/xray.ts`.
+
+Full hex/rem/token values: `packages/design-system/src/tokens/tokens.css` (source of truth — don't let this doc drift out of sync with it).
+
 ## Next step
 
-Run this prompt, review/adjust the result, then transcribe the decided values into `packages/design-system/tokens/` as real CSS custom properties / TS constants. That step is the start of Phase 2 — not part of Phase 0.
+Done — see Phase 2 in `PROJECT.md`. Any future revisit of the visual language itself (not just adding components) should update `tokens.css` first, then reflect the change here.

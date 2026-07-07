@@ -1,0 +1,127 @@
+/*
+ * Design tokens — see docs/design-prompt.md for the rationale behind every value here.
+ * Dark-mode-first: :root holds dark values, [data-color-scheme="light"] overrides them.
+ * Custom properties inherit through Shadow DOM, so this file only needs to be loaded once,
+ * globally, by the consuming app (see packages/design-system/README.md).
+ */
+
+:root {
+  /* Neutrals — warm-tinted, never pure black/white */
+  --color-neutral-950: #0b0c0d;
+  --color-neutral-900: #131517;
+  --color-neutral-800: #1c1f22;
+  --color-neutral-700: #2a2e32;
+  --color-neutral-600: #3d4247;
+  --color-neutral-500: #5b6166;
+  --color-neutral-400: #868c91;
+  --color-neutral-300: #b3b8bc;
+  --color-neutral-200: #d8dbdd;
+  --color-neutral-100: #eceeef;
+  --color-neutral-50: #f6f7f7;
+
+  /* Accent — phosphor amber, the single confident accent */
+  --color-accent-300: #ffdd94;
+  --color-accent-400: #ffc94d;
+  --color-accent-500: #ffb000;
+  --color-accent-600: #e69a00;
+
+  /* Kind badges — desaturated, distinct from the accent */
+  --color-kind-project: #6ea8d8;
+  --color-kind-post: #4fb6a6;
+  --color-kind-note: #9b8fd1;
+  --color-kind-log: #c97b5a;
+
+  /* Surface / text roles (dark, default) */
+  --color-bg: var(--color-neutral-950);
+  --color-bg-raised: var(--color-neutral-900);
+  --color-text: var(--color-neutral-100);
+  --color-text-muted: var(--color-neutral-400);
+  --color-border: var(--color-neutral-700);
+
+  /* Interactive state */
+  --color-accent: var(--color-accent-500);
+  --color-accent-hover: var(--color-accent-400);
+  --color-focus-ring: var(--color-accent-400);
+  --color-disabled-bg: var(--color-neutral-800);
+  --color-disabled-text: var(--color-neutral-600);
+
+  /* Semantic status — deliberately independent of kind hues */
+  --color-status-draft: var(--color-neutral-500);
+  --color-status-published: var(--color-accent-500);
+
+  /* Type */
+  --font-family-serif: 'Fraunces', Georgia, serif;
+  --font-family-mono: 'JetBrains Mono', 'SFMono-Regular', monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.125rem;
+  --font-size-lg: 1.375rem;
+  --font-size-xl: 1.75rem;
+  --font-size-2xl: 2.25rem;
+  --font-size-3xl: 3rem;
+  --font-size-4xl: 4rem;
+
+  --line-height-reading: 1.6;
+  --line-height-ui: 1.4;
+  --line-height-headline: 1.1;
+
+  --font-weight-body: 400;
+  --font-weight-subhead: 500;
+  --font-weight-display: 600;
+  --font-weight-mono: 400;
+  --font-weight-mono-em: 500;
+
+  /* Spacing — one 4px-based scale; 1-4 for panel/UI precision, 5-10 for editorial rhythm */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* Motion — mechanical register for everyday micro-interactions */
+  --motion-duration-fast: 100ms;
+  --motion-duration-base: 160ms;
+  --motion-easing-mechanical: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Motion — fluid register, reserved for overlay/depth moments only */
+  --motion-duration-slow: 320ms;
+  --motion-easing-fluid: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Developer Mode x-ray skin — the fullest expression of the brutalist register */
+  --devmode-outline-color: var(--color-accent-400);
+  --devmode-bg: var(--color-neutral-950);
+  --devmode-text: var(--color-accent-400);
+  --devmode-font: var(--font-family-mono);
+}
+
+:root[data-color-scheme='light'] {
+  --color-bg: var(--color-neutral-50);
+  --color-bg-raised: var(--color-neutral-100);
+  --color-text: var(--color-neutral-900);
+  --color-text-muted: var(--color-neutral-500);
+  --color-border: var(--color-neutral-300);
+
+  --color-accent: var(--color-accent-600);
+  --color-accent-hover: var(--color-accent-500);
+  --color-focus-ring: var(--color-accent-600);
+  --color-disabled-bg: var(--color-neutral-100);
+  --color-disabled-text: var(--color-neutral-300);
+
+  --color-status-draft: var(--color-neutral-500);
+  --color-status-published: var(--color-accent-600);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-fast: 0ms;
+    --motion-duration-base: 20ms;
+    --motion-duration-slow: 20ms;
+  }
+}

@@ -50,6 +50,69 @@ const availableLocales = computed(() => locales.value.filter(l => l.code !== loc
 
     <footer class="site-footer">
       <p>&copy; {{ new Date().getFullYear() }} Joao Dallarosa</p>
+      <NuxtLink :to="localePath('/showcase')">
+        Component showcase
+      </NuxtLink>
     </footer>
   </div>
 </template>
+
+<style>
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-header,
+.site-footer,
+main {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-6);
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-title {
+  font-family: var(--font-family-mono);
+  font-weight: var(--font-weight-mono-em);
+  color: var(--color-text);
+}
+
+.site-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+}
+
+main {
+  flex: 1;
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.site-footer p {
+  margin: 0;
+}
+</style>

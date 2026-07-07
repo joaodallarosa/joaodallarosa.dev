@@ -10,9 +10,11 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    }
+    },
+    "./tokens.css": "./src/tokens/tokens.css",
+    "./hydration.css": "./src/styles/hydration.css"
   },
-  "files": ["dist"],
+  "files": ["dist", "src/tokens", "src/styles"],
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
