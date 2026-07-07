@@ -1,0 +1,11 @@
+{
+  "nav": {
+    "projects": "Projetos",
+    "posts": "Posts",
+    "notes": "Notas",
+    "log": "Diário"
+  },
+  "language": {
+    "label": "Idioma"
+  }
+}

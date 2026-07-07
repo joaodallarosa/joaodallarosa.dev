@@ -12,17 +12,19 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@nuxt/content": "^3.15.0",
+    "@nuxtjs/i18n": "^10.4.0",
+    "better-sqlite3": "^12.5.0",
     "nuxt": "^4.4.8",
+    "nuxt-studio": "1.7.0",
     "vue": "^3.5.39",
     "vue-router": "^5.1.0",
-    "@nuxt/content": "^3.15.0",
-    "zod": "^3.25.76",
-    "better-sqlite3": "^12.5.0"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.16.0",
-    "vue-tsc": "^3.3.6",
+    "eslint": "catalog:",
     "typescript": "catalog:",
-    "eslint": "catalog:"
+    "vue-tsc": "^3.3.6"
   }
 }

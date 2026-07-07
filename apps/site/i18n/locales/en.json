@@ -1,0 +1,11 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "posts": "Posts",
+    "notes": "Notes",
+    "log": "Log"
+  },
+  "language": {
+    "label": "Language"
+  }
+}
