@@ -13,6 +13,7 @@ dist
 # Storybook build output + generated custom-elements manifest
 storybook-static
 packages/design-system/.storybook/custom-elements.json
+apps/site/public/storybook
 
 # TypeScript incremental build info
 *.tsbuildinfo

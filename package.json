@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "pnpm --filter site run dev",
-    "build": "pnpm -r run build",
+    "build": "pnpm --filter design-system run build && pnpm --filter design-system run build-storybook && node scripts/copy-storybook.mjs && pnpm --filter site run build",
     "lint": "pnpm -r run lint",
     "typecheck": "pnpm -r run typecheck"
   }

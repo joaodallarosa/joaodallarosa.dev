@@ -111,6 +111,12 @@ const activeKind = computed(() => route.query.kind)
         <NuxtLink :to="localePath('/showcase')">
           Framework interop demo
         </NuxtLink>
+        <!-- Plain anchor, not NuxtLink: /storybook is a static build copied into public/,
+             not a Nuxt route — a NuxtLink would try to client-side-route it through Vue
+             Router and 404 instead of letting the browser fetch the static file. -->
+        <a href="/storybook">
+          Component showcase
+        </a>
       </footer>
     </div>
   </div>
