@@ -1,0 +1,62 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Foundations/Motion" />
+
+# Motion
+
+Two registers. **Mechanical** (`--motion-easing-mechanical`, a snappy `cubic-bezier(0.2, 0, 0, 1)`)
+is the default for everyday micro-interactions — buttons, tags, borders. **Fluid**
+(`--motion-easing-fluid`) is reserved for overlay/depth moments only (glass panels). All durations
+collapse under `prefers-reduced-motion: reduce` (see the media query in `tokens.css`) — toggle it
+in your OS/browser settings to verify rather than trusting the token value alone.
+
+export const Demo = ({ duration, easing, label }) => (
+  <div
+    className={`motion-demo motion-demo--${label}`}
+    style={{
+      width: '8rem',
+      height: '2.5rem',
+      background: 'var(--color-bg-raised)',
+      border: '1px solid var(--color-border)',
+      borderRadius: '2px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'var(--font-family-mono)',
+      fontSize: '0.75rem',
+      color: 'var(--color-text-muted)',
+      transitionProperty: 'border-color, color',
+      transitionDuration: `var(${duration})`,
+      transitionTimingFunction: `var(${easing})`,
+      cursor: 'default',
+    }}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.borderColor = 'var(--color-accent)'
+      e.currentTarget.style.color = 'var(--color-accent)'
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.borderColor = 'var(--color-border)'
+      e.currentTarget.style.color = 'var(--color-text-muted)'
+    }}
+  >
+    hover me
+  </div>
+)
+
+## Durations × mechanical easing
+
+<div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+  <div>
+    <p><code>--motion-duration-fast</code> (100ms)</p>
+    <Demo duration="--motion-duration-fast" easing="--motion-easing-mechanical" label="fast" />
+  </div>
+  <div>
+    <p><code>--motion-duration-base</code> (160ms)</p>
+    <Demo duration="--motion-duration-base" easing="--motion-easing-mechanical" label="base" />
+  </div>
+</div>
+
+## Fluid register — overlay/depth only
+
+<p><code>--motion-duration-slow</code> (320ms) × <code>--motion-easing-fluid</code></p>
+<Demo duration="--motion-duration-slow" easing="--motion-easing-fluid" label="slow" />

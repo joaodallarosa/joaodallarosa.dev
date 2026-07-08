@@ -25,3 +25,18 @@ Import `design-system` once (client-side) to register the custom elements, and t
 ## Design tokens
 
 Values and rationale: [docs/design-prompt.md](../../docs/design-prompt.md). Source of truth: `src/tokens/tokens.css`.
+
+## Storybook
+
+The component/Foundations reference tool. Run locally:
+
+```sh
+pnpm --filter design-system storybook
+```
+
+Props/controls in each component's docs page are generated from its own TypeScript source via
+`@custom-elements-manifest/analyzer` (`pnpm run analyze`, restricted to `src/components/**/*.ts`
+so it doesn't also pick up the built `dist/` output and duplicate declarations) — not hand-written.
+Foundations pages (Colors/Typography/Spacing/Motion) live in `src/foundations/*.mdx`. Not yet
+deployed publicly; `pnpm run build-storybook` produces a static `storybook-static/` build for
+whenever that's wired up.

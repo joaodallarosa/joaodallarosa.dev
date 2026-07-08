@@ -1,0 +1,79 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Foundations/Colors" />
+
+# Colors
+
+Warm-tinted neutrals (never pure black/white) plus a single confident accent — phosphor amber.
+Kind badges use a separate, desaturated palette so content-kind color never gets confused with
+the accent or with status. Full rationale in `docs/design-prompt.md`. Dark is the default scheme;
+`[data-color-scheme="light"]` overrides the surface/text/accent roles below — use the toolbar's
+color-scheme control above to compare.
+
+export const Swatch = ({ varName, label }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+    <div
+      style={{
+        width: '2.5rem',
+        height: '2.5rem',
+        borderRadius: '2px',
+        border: '1px solid var(--color-border)',
+        background: `var(${varName})`,
+        flexShrink: 0,
+      }}
+    />
+    <code style={{ fontSize: '0.85rem' }}>{varName}</code>
+    {label ? <span style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>{label}</span> : null}
+  </div>
+)
+
+## Neutrals
+
+<Swatch varName="--color-neutral-950" />
+<Swatch varName="--color-neutral-900" />
+<Swatch varName="--color-neutral-800" />
+<Swatch varName="--color-neutral-700" />
+<Swatch varName="--color-neutral-600" />
+<Swatch varName="--color-neutral-500" />
+<Swatch varName="--color-neutral-400" />
+<Swatch varName="--color-neutral-300" />
+<Swatch varName="--color-neutral-200" />
+<Swatch varName="--color-neutral-100" />
+<Swatch varName="--color-neutral-50" />
+
+## Accent
+
+<Swatch varName="--color-accent-300" />
+<Swatch varName="--color-accent-400" label="hover" />
+<Swatch varName="--color-accent-500" label="default" />
+<Swatch varName="--color-accent-600" label="light-scheme default" />
+
+## Kind palette
+
+Deliberately separate from the accent — see `ds-badge`.
+
+<Swatch varName="--color-kind-project" label="project" />
+<Swatch varName="--color-kind-post" label="post" />
+<Swatch varName="--color-kind-note" label="note" />
+<Swatch varName="--color-kind-log" label="log" />
+
+## Surface / text roles
+
+These are the semantic roles components actually consume — resolved differently per color scheme.
+
+<Swatch varName="--color-bg" />
+<Swatch varName="--color-bg-raised" />
+<Swatch varName="--color-text" />
+<Swatch varName="--color-text-muted" />
+<Swatch varName="--color-border" />
+<Swatch varName="--color-accent" />
+<Swatch varName="--color-focus-ring" />
+
+## Liquid glass
+
+Persistent structural panels (data/annotation cards), not just transient overlays — see the
+"Evolved Liquid Obsidian" addendum in `docs/design-prompt.md`.
+
+<Swatch varName="--glass-bg" />
+<Swatch varName="--glass-border" />
+<Swatch varName="--glass-border-accent" />

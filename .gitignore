@@ -10,6 +10,10 @@ node_modules
 # design-system build output
 dist
 
+# Storybook build output + generated custom-elements manifest
+storybook-static
+packages/design-system/.storybook/custom-elements.json
+
 # TypeScript incremental build info
 *.tsbuildinfo
 

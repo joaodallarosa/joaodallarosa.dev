@@ -1,0 +1,44 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Foundations/Spacing" />
+
+# Spacing
+
+One 4px-based scale. `1`–`4` for panel/UI precision (padding, gaps within a component); `5`–`10`
+for editorial rhythm (section spacing, page-level gutters).
+
+export const Bar = ({ varName }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+    <code style={{ fontSize: '0.8rem', width: '6rem', flexShrink: 0 }}>{varName}</code>
+    <div
+      style={{
+        height: '1rem',
+        width: `var(${varName})`,
+        background: 'var(--color-accent)',
+        borderRadius: '1px',
+      }}
+    />
+  </div>
+)
+
+## UI precision (1–4)
+
+<Bar varName="--space-1" />
+<Bar varName="--space-2" />
+<Bar varName="--space-3" />
+<Bar varName="--space-4" />
+
+## Editorial rhythm (5–10)
+
+<Bar varName="--space-5" />
+<Bar varName="--space-6" />
+<Bar varName="--space-7" />
+<Bar varName="--space-8" />
+<Bar varName="--space-9" />
+<Bar varName="--space-10" />
+
+## Layout
+
+`--content-max-width` (`64rem`) is the constrained reading column. Shell/hero sections
+deliberately break out of it (full-bleed) — see `docs/design-layout-references.md`; long-form
+reading content stays inside it.

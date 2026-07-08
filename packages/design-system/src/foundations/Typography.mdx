@@ -1,0 +1,68 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+Two families: `--font-family-serif` (Fraunces, editorial voice — headlines, body prose) and
+`--font-family-mono` (JetBrains Mono, structural/UI voice — labels, badges, Developer Mode).
+Font self-hosting is still deferred (currently falling back to Georgia/monospace); see
+`PROJECT.md` Phase 2.
+
+export const Sample = ({ varName, family = '--font-family-serif', weight }) => (
+  <p
+    style={{
+      fontFamily: `var(${family})`,
+      fontSize: `var(${varName})`,
+      fontWeight: weight ? `var(${weight})` : undefined,
+      color: 'var(--color-text)',
+      margin: '0 0 0.75rem',
+    }}
+  >
+    <code style={{ fontSize: '0.7em', color: 'var(--color-text-muted)', marginRight: '0.75em' }}>
+      {varName}
+    </code>
+    The quick brown fox
+  </p>
+)
+
+## Fixed scale — long-form reading
+
+Never used for shell/hero moments (see the display/hero scale below).
+
+<Sample varName="--font-size-xs" />
+<Sample varName="--font-size-sm" />
+<Sample varName="--font-size-base" />
+<Sample varName="--font-size-md" />
+<Sample varName="--font-size-lg" />
+<Sample varName="--font-size-xl" />
+<Sample varName="--font-size-2xl" />
+<Sample varName="--font-size-3xl" />
+<Sample varName="--font-size-4xl" />
+
+## Display / hero scale — fluid, shell-only
+
+`clamp()`-based, deliberately oversized for bleed-friendly shell moments (homepage hero, section
+dividers) per the "shell bold, reading calm" split in `docs/design-layout-references.md` — resize
+the preview frame to see them scale with the viewport. Never used in long-form reading body text.
+
+<Sample varName="--font-size-display" />
+<Sample varName="--font-size-hero" />
+
+## Mono / structural voice
+
+<Sample varName="--font-size-sm" family="--font-family-mono" />
+<Sample varName="--font-size-xs" family="--font-family-mono" weight="--font-weight-mono-em" />
+
+## Line heights
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Used for</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--line-height-reading</code></td><td>1.6</td><td>long-form body prose</td></tr>
+    <tr><td><code>--line-height-ui</code></td><td>1.4</td><td>UI labels, badges, buttons</td></tr>
+    <tr><td><code>--line-height-headline</code></td><td>1.1</td><td>headings, display type</td></tr>
+  </tbody>
+</table>

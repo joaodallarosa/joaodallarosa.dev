@@ -109,7 +109,7 @@ const activeKind = computed(() => route.query.kind)
       >
         <p>&copy; {{ new Date().getFullYear() }} Joao Dallarosa</p>
         <NuxtLink :to="localePath('/showcase')">
-          Component showcase
+          Framework interop demo
         </NuxtLink>
       </footer>
     </div>
@@ -288,8 +288,15 @@ main {
    * width). Row 1: brand + lang/dev-mode utilities. Row 2: kind nav, wrapped — a deliberate
    * mobile-specific treatment rather than the desktop rail scaled down, per the "literal
    * bleed needs its own mobile design" principle (docs/design-layout-references.md).
+   * `.site` switches to a column flow so the (now non-fixed, sticky) bar stacks above
+   * `.site-body` instead of sitting beside it as a flex row item.
    */
+  .site {
+    flex-direction: column;
+  }
+
   .site-rail {
+    position: sticky;
     flex-direction: row;
     flex-wrap: wrap;
     row-gap: var(--space-3);

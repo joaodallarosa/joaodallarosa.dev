@@ -14,11 +14,18 @@
     "./tokens.css": "./src/tokens/tokens.css",
     "./hydration.css": "./src/styles/hydration.css"
   },
-  "files": ["dist", "src/tokens", "src/styles"],
+  "files": [
+    "dist",
+    "src/tokens",
+    "src/styles"
+  ],
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "analyze": "cem analyze --litelement --globs \"src/components/**/*.ts\" --outdir .storybook",
+    "storybook": "pnpm run analyze && storybook dev -p 6006",
+    "build-storybook": "pnpm run analyze && storybook build"
   },
   "dependencies": {
     "lit": "^3.3.3"
@@ -28,6 +35,14 @@
     "eslint": "catalog:",
     "@eslint/js": "^10.0.1",
     "typescript-eslint": "^8.63.0",
-    "@stylistic/eslint-plugin": "^5.10.0"
-  }
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@storybook/addon-a11y": "^10.4.6",
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/web-components": "^10.4.6",
+    "@storybook/web-components-vite": "^10.4.6",
+    "storybook": "^10.4.6",
+    "vite": "^8.1.3"
+  },
+  "customElements": ".storybook/custom-elements.json"
 }
