@@ -32,3 +32,14 @@ Joao provided ten concrete image references (agency portfolios, brand case studi
 ## What this doc does not cover yet
 
 Actual page recomposition — the homepage hero, nav treatment, entry-list layout, and how collage/bleed/marquee patterns get built as real Vue/Lit markup. Per the lesson from Phase 2/3 (a single prompt-and-transcribe pass isn't enough to avoid landing generic again), the next step is a **first concrete homepage draft, reviewed as a real screenshot before rolling the treatment out further** — not a full site rebuild in one pass.
+
+## Addendum: "Evolved Liquid Obsidian" (Phase 4, 2026-07-08)
+
+The first concrete draft (built directly from this doc, no external tool) was reviewed and rejected — see `PROJECT.md` Phase 4 and `docs/homepage-redesign-brief.md` for what was tried and why it read as generic. Joao then ran that brief through Google Stitch and brought back a real direction. Two updates to the decisions above, both narrowing rather than reversing the original calls:
+
+| Question | Revised decision | Why |
+|---|---|---|
+| Does pattern #3 (exposed grid/annotation/index-number language) really stay 100% exclusive to Developer Mode? | **Split into two distinct things.** A small, curated, always-the-same-set of **content annotations** — a figure label, an object index (`OBJ_01`), a status readout (`SYS.STATUS: ONLINE`) — is now part of the *default* visual language, treating images/panels as labeled data objects. The **Developer Mode x-ray overlay** (exhaustive structural exposure — every element outlined, prop values, slot names, layout landmarks) stays exactly as exclusive as originally decided. | The Stitch direction leans on this device heavily and it reads as intentional editorial art-direction, not a debug view — the distinction is "a few authored labels" vs. "an exhaustive live dump of internals," not presence-vs-absence of annotation as a device. |
+| Is the site's nav shell up for structural revisit, not just the homepage content? | **Yes — replaces the top header nav with a fixed vertical rail** (brand mark, kind filters, language switcher, Dev Mode toggle), consistent with "shell bold" already covering nav. Needs its own deliberate mobile treatment (collapses to a compact horizontal bar below the same breakpoint used elsewhere), not a scaled-down vertical rail. | Matches the "panel-based, custom-interface" structural logic in the Stitch output and gives the bold treatment a persistent home across every page, not just the homepage hero moment. |
+
+Color palette and Liquid Glass scope changes are covered in `docs/design-prompt.md`'s addendum, not repeated here.

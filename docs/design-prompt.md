@@ -128,6 +128,15 @@ a form ready to transcribe into CSS custom properties / TS constants.
 
 Full hex/rem/token values: `packages/design-system/src/tokens/tokens.css` (source of truth — don't let this doc drift out of sync with it).
 
+## Addendum: "Evolved Liquid Obsidian" (Phase 4, 2026-07-08)
+
+After two rejected in-code homepage attempts (see `PROJECT.md` Phase 4 and `docs/homepage-redesign-brief.md`), Joao ran the brief through an external design tool (Google Stitch) and brought back a concrete direction. Two of this doc's original calls are explicitly revised by that output; everything else here stands:
+
+- **Color and type values are unchanged.** The Stitch export used its own arbitrary Material-style palette (e.g. `#ffba43`, `#131313`) — that's an artifact of the tool's default theme, not a deliberate new choice, and the returned prompt itself says to keep the near-black `#0b0c0d` surface and phosphor amber `#ffb000` accent. Treat any hex value from a future export that isn't explicitly called out in prose as tool noise, not a signal.
+- **Liquid Glass is no longer transient-overlay-only.** The original resolution above ("raw/matte is the default surface treatment everywhere; Liquid Glass reserved for transient overlays only, never persistent content surfaces") is superseded: glass panels are now also used for persistent structural/annotation panels (e.g. an entry's description card, a data readout panel), not just modals/lightboxes. New tokens (`--glass-bg`, `--glass-border`, `--glass-border-accent`, `--glass-blur`) capture this as a small, explicit set rather than ad hoc `backdrop-filter` values — the perf note in `docs/conventions.md` still applies, so glass stays reserved for a handful of named panels per page, not a general-purpose surface style.
+
+See `docs/design-layout-references.md`'s addendum for the structural/composition side of this same revision (annotation labels, the vertical nav rail).
+
 ## Next step
 
 Done — see Phase 2 in `PROJECT.md`. Any future revisit of the visual language itself (not just adding components) should update `tokens.css` first, then reflect the change here.

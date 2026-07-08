@@ -115,6 +115,18 @@
   --devmode-bg: var(--color-neutral-950);
   --devmode-text: var(--color-accent-400);
   --devmode-font: var(--font-family-mono);
+
+  /*
+   * Liquid glass — see docs/design-prompt.md's "Evolved Liquid Obsidian" addendum.
+   * Now used for persistent structural panels (data/annotation cards), not just transient
+   * overlays — that's a deliberate revision of Phase 2's original "transient-only" call.
+   * Kept as a small, explicit set of tokens rather than ad hoc backdrop-filter values so the
+   * performance cost (see docs/conventions.md) stays visible and bounded to named uses.
+   */
+  --glass-bg: rgba(11, 12, 13, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-border-accent: rgba(255, 176, 0, 0.2);
+  --glass-blur: 24px;
 }
 
 :root[data-color-scheme='light'] {
@@ -132,6 +144,10 @@
 
   --color-status-draft: var(--color-neutral-500);
   --color-status-published: var(--color-accent-600);
+
+  --glass-bg: rgba(246, 247, 247, 0.72);
+  --glass-border: rgba(11, 12, 13, 0.06);
+  --glass-border-accent: rgba(230, 154, 0, 0.25);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -16,16 +16,23 @@
 html {
   color-scheme: dark;
   background: var(--color-bg);
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-family-serif);
   font-size: var(--font-size-md);
   line-height: var(--line-height-reading);
+  background-color: var(--color-bg);
+  /* "Liquid Obsidian" atmosphere (Phase 4 addendum) — a bare near-black is inert; this reads
+     as depth without costing more than two static gradients. */
+  background-image:
+    radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, transparent 45%),
+    radial-gradient(circle at 85% 60%, color-mix(in srgb, var(--color-text) 3%, transparent) 0%, transparent 45%);
+  background-attachment: fixed;
 }
 
 h1,
