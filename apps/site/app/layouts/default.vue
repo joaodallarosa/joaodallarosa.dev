@@ -4,6 +4,7 @@ const switchLocalePath = useSwitchLocalePath()
 const localePath = useLocalePath()
 const route = useRoute()
 const { devMode, toggle: toggleDevMode } = useDevMode()
+const { scheme, toggle: toggleScheme } = useColorScheme()
 
 const kindNavItems = [
   { kind: 'project', labelKey: 'nav.projects' },
@@ -18,6 +19,13 @@ const activeKind = computed(() => route.query.kind)
 
 <template>
   <div class="site">
+    <a
+      href="#main-content"
+      class="skip-link"
+    >
+      {{ t('a11y.skipToContent') }}
+    </a>
+
     <!--
       Vertical nav rail (Phase 4 "Liquid Obsidian" revision, docs/design-layout-references.md
       addendum) — replaces the previous top header. Fixed for the "panel-based, custom
@@ -46,6 +54,7 @@ const activeKind = computed(() => route.query.kind)
           :to="{ path: localePath('/'), query: { kind: item.kind } }"
           class="rail-link"
           :class="{ 'is-active': activeKind === item.kind }"
+          :aria-current="activeKind === item.kind ? 'page' : undefined"
         >
           {{ t(item.labelKey) }}
         </NuxtLink>
@@ -69,28 +78,58 @@ const activeKind = computed(() => route.query.kind)
         <!--
           ClientOnly: the persisted preference lives in localStorage, unavailable during SSR —
           rendering a guessed state eagerly causes a hydration text mismatch (see
+          colorscheme.client.ts). The fallback keeps layout stable instead of an empty slot.
+        -->
+        <ClientOnly>
+          <button
+            type="button"
+            class="rail-toggle"
+            :class="{ 'is-on': scheme === 'light' }"
+            :aria-pressed="scheme === 'light'"
+            :aria-label="`${t('colorScheme.label')}: ${scheme === 'light' ? t('colorScheme.light') : t('colorScheme.dark')}`"
+            @click="toggleScheme"
+          >
+            <span class="rail-toggle-dot" />
+            {{ scheme === 'light' ? 'LIGHT' : 'DARK' }}
+          </button>
+          <template #fallback>
+            <button
+              type="button"
+              class="rail-toggle"
+              disabled
+              :aria-label="`${t('colorScheme.label')}: ${t('colorScheme.dark')}`"
+            >
+              <span class="rail-toggle-dot" />
+              DARK
+            </button>
+          </template>
+        </ClientOnly>
+
+        <!--
+          ClientOnly: the persisted preference lives in localStorage, unavailable during SSR —
+          rendering a guessed state eagerly causes a hydration text mismatch (see
           devmode.client.ts). The fallback keeps layout stable instead of an empty slot.
         -->
         <ClientOnly>
           <button
             type="button"
-            class="rail-devmode"
+            class="rail-toggle"
             :class="{ 'is-on': devMode }"
             :aria-pressed="devMode"
             :aria-label="`${t('devMode.label')}: ${devMode ? t('devMode.on') : t('devMode.off')}`"
             @click="toggleDevMode"
           >
-            <span class="rail-devmode-dot" />
+            <span class="rail-toggle-dot" />
             DEV
           </button>
           <template #fallback>
             <button
               type="button"
-              class="rail-devmode"
+              class="rail-toggle"
               disabled
               :aria-label="`${t('devMode.label')}: ${t('devMode.off')}`"
             >
-              <span class="rail-devmode-dot" />
+              <span class="rail-toggle-dot" />
               DEV
             </button>
           </template>
@@ -99,7 +138,11 @@ const activeKind = computed(() => route.query.kind)
     </aside>
 
     <div class="site-body">
-      <main data-devmode-label="main">
+      <main
+        id="main-content"
+        tabindex="-1"
+        data-devmode-label="main"
+      >
         <slot />
       </main>
 
@@ -119,6 +162,8 @@ const activeKind = computed(() => route.query.kind)
         </a>
       </footer>
     </div>
+
+    <CookieBanner />
   </div>
 </template>
 
@@ -126,6 +171,25 @@ const activeKind = computed(() => route.query.kind)
 .site {
   display: flex;
   min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  z-index: 100;
+  top: var(--space-2);
+  left: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-bg);
+  background: var(--color-accent);
+  border-radius: 2px;
+  transform: translateY(-200%);
+  transition: transform var(--motion-duration-base) var(--motion-easing-mechanical);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 .site-rail {
@@ -222,7 +286,7 @@ const activeKind = computed(() => route.query.kind)
   color: var(--color-accent);
 }
 
-.rail-devmode {
+.rail-toggle {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -237,18 +301,18 @@ const activeKind = computed(() => route.query.kind)
   cursor: pointer;
 }
 
-.rail-devmode:hover {
+.rail-toggle:hover {
   color: var(--color-accent);
 }
 
-.rail-devmode-dot {
+.rail-toggle-dot {
   width: 6px;
   height: 6px;
   background: var(--color-disabled-text);
   border-radius: 50%;
 }
 
-.rail-devmode.is-on .rail-devmode-dot {
+.rail-toggle.is-on .rail-toggle-dot {
   background: var(--color-accent);
 }
 
@@ -349,7 +413,7 @@ main {
     flex-direction: row;
   }
 
-  .rail-devmode {
+  .rail-toggle {
     flex-direction: row;
   }
 

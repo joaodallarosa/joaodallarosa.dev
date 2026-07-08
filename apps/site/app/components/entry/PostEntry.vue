@@ -14,10 +14,12 @@ const readingTimeMinutes = computed(() => Math.max(1, Math.round((props.entry.bo
       Draft
     </p>
     <header v-if="entry.cover">
-      <img
+      <NuxtImg
         :src="entry.cover.src"
         :alt="entry.cover.alt"
-      >
+        loading="eager"
+        sizes="100vw sm:80vw md:64rem"
+      />
     </header>
     <h1>{{ entry.title }}</h1>
     <p>{{ entry.description }}</p>

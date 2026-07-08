@@ -2,12 +2,29 @@
 import { resolveEntryByPath } from '~/composables/useEntry'
 
 const route = useRoute()
+const requestUrl = useRequestURL()
 
 const { data: entry } = await useAsyncData(`entry-${route.path}`, () => resolveEntryByPath(route.path))
 
 if (!entry.value) {
   throw createError({ statusCode: 404, statusMessage: 'Entry not found' })
 }
+
+const canonicalUrl = computed(() => new URL(route.path, requestUrl.origin).toString())
+
+useSeoMeta({
+  title: () => entry.value?.title,
+  description: () => entry.value?.description,
+  ogTitle: () => entry.value?.title,
+  ogDescription: () => entry.value?.description,
+  ogType: 'article',
+  ogUrl: canonicalUrl,
+  ogImage: () => entry.value?.cover ? new URL(entry.value.cover.src, requestUrl.origin).toString() : undefined,
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonicalUrl }],
+})
 </script>
 
 <template>

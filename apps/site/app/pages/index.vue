@@ -6,12 +6,9 @@ const localePath = useLocalePath()
 const route = useRoute()
 const { devMode } = useDevMode()
 
-// Homepage-only re-theme for the ink-on-paper flow field background (Phase 5): flips every
-// dark-mode-first token in tokens.css to its existing [data-color-scheme='light'] override.
-// Scoped to this page via useHead's component lifecycle — Nuxt/unhead removes this htmlAttrs
-// entry on navigation away, reverting <html> to the default (dark) scheme automatically, and
-// it's applied during SSR too so there's no dark-then-light flash on first load.
-useHead({ htmlAttrs: { 'data-color-scheme': 'light' } })
+useSeoMeta({
+  description: 'Personal publication and working lab — projects, posts, notes, and logs from Joao Dallarosa.',
+})
 
 const kindFilter = computed(() => {
   const kind = route.query.kind
@@ -154,11 +151,12 @@ const marqueeRepeats = Array.from({ length: 4 })
             v-if="entry.cover"
             class="log-image-frame"
           >
-            <img
+            <NuxtImg
               :src="entry.cover.src"
               :alt="entry.cover.alt"
               class="log-image"
               loading="lazy"
+              sizes="100vw sm:50vw md:32rem"
             />
             <span class="log-tag log-tag--obj">{{ objectTag(index) }}</span>
             <span class="log-tag log-tag--fig">{{ figureTag(index) }}</span>

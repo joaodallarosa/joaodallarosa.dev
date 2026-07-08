@@ -15,11 +15,13 @@ const gallery = computed(() => props.entry.gallery ?? [])
     </p>
     <h1>{{ entry.title }}</h1>
     <p>{{ entry.description }}</p>
-    <img
+    <NuxtImg
       v-if="entry.cover"
       :src="entry.cover.src"
       :alt="entry.cover.alt"
-    >
+      loading="eager"
+      sizes="100vw sm:80vw md:64rem"
+    />
 
     <dl>
       <template v-if="entry.role">
@@ -50,10 +52,12 @@ const gallery = computed(() => props.entry.gallery ?? [])
         v-for="image in gallery"
         :key="image.src"
       >
-        <img
+        <NuxtImg
           :src="image.src"
           :alt="image.alt"
-        >
+          loading="lazy"
+          sizes="100vw sm:80vw md:64rem"
+        />
         <figcaption v-if="image.caption">
           {{ image.caption }}
         </figcaption>

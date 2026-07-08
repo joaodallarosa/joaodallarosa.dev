@@ -8,9 +8,22 @@
   "language": {
     "label": "Idioma"
   },
+  "colorScheme": {
+    "label": "Tema",
+    "light": "Claro",
+    "dark": "Escuro"
+  },
   "devMode": {
     "label": "Modo desenvolvedor",
     "on": "Ativado",
     "off": "Desativado"
+  },
+  "a11y": {
+    "skipToContent": "Pular para o conteúdo"
+  },
+  "cookieBanner": {
+    "label": "Aviso de cookies",
+    "text": "Este site usa apenas armazenamento local, para lembrar suas preferências de tema e modo desenvolvedor. Nenhum cookie de rastreamento é definido.",
+    "dismiss": "Entendi"
   }
 }

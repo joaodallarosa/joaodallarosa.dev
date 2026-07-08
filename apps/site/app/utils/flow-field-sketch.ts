@@ -1,15 +1,20 @@
-import p5 from 'p5'
+// Type-only import: the p5 runtime (~300KB) is dynamically imported inside mountFlowField
+// instead, so it loads off the critical path and isn't in the initial homepage JS bundle.
+import type p5 from 'p5'
 
-// Literal hex tokens only (--color-neutral-950/-50) — NOT --color-bg/--color-text. Those are
+// Literal hex tokens only (--color-neutral-*) — NOT --color-bg/--color-text. Those are
 // var()-chains, and getComputedStyle().getPropertyValue() on a custom property returns its raw
 // computed value (the unresolved "var(--color-neutral-950)" token text), not the resolved color
 // a normal CSS property would show. Reading the literal leaf tokens directly sidesteps that.
-const INK_COLOR_VAR = '--color-neutral-950'
-const PAPER_COLOR_VAR = '--color-neutral-50'
-const DOT_COLOR_VAR = '--color-neutral-950'
-const INK_COLOR_FALLBACK = '#0b0c0d'
-const PAPER_COLOR_FALLBACK = '#f6f7f7'
-const DOT_COLOR_FALLBACK = '#0b0c0d'
+// Ink/dot always match; paper is the inverse — light scheme keeps the original ink-on-paper
+// read (dark ink, near-white paper), dark scheme mirrors the site's own dark surface/text pair
+// (near-white ink, dark paper) rather than introducing a third, un-reviewed palette.
+const SCHEME_PALETTE = {
+  light: { inkVar: '--color-neutral-950', paperVar: '--color-neutral-50', inkFallback: '#0b0c0d', paperFallback: '#f6f7f7' },
+  dark: { inkVar: '--color-neutral-100', paperVar: '--color-neutral-950', inkFallback: '#eceeef', paperFallback: '#0b0c0d' },
+} as const satisfies Record<string, { inkVar: string, paperVar: string, inkFallback: string, paperFallback: string }>
+
+export type FlowFieldScheme = keyof typeof SCHEME_PALETTE
 
 /**
  * All tunable knobs for the flow field, grouped in one place for quick tuning — every other
@@ -264,10 +269,12 @@ export interface FlowFieldHandle {
 // into `container`, sized to fill it. Randomizes attractor params per mount, honors
 // prefers-reduced-motion (renders one static field frame instead of animating), and pauses the
 // draw loop while the tab is hidden.
-export function mountFlowField(container: HTMLElement): FlowFieldHandle {
-  const inkHex = readToken(INK_COLOR_VAR, INK_COLOR_FALLBACK)
-  const paperHex = readToken(PAPER_COLOR_VAR, PAPER_COLOR_FALLBACK)
-  const dotHex = readToken(DOT_COLOR_VAR, DOT_COLOR_FALLBACK)
+export async function mountFlowField(container: HTMLElement, scheme: FlowFieldScheme = 'light'): Promise<FlowFieldHandle> {
+  const { default: P5 } = await import('p5')
+  const palette = SCHEME_PALETTE[scheme]
+  const inkHex = readToken(palette.inkVar, palette.inkFallback)
+  const paperHex = readToken(palette.paperVar, palette.paperFallback)
+  const dotHex = inkHex
   applyPaperTexture(container, hexToRgb(paperHex), hexToRgb(dotHex))
 
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -287,7 +294,7 @@ export function mountFlowField(container: HTMLElement): FlowFieldHandle {
     particles = Array.from({ length: count }, () => new Particle(width, height))
   }
 
-  const instance = new p5((sk: p5) => {
+  const instance = new P5((sk: p5) => {
     sk.setup = () => {
       const { width, height } = container.getBoundingClientRect()
       sk.createCanvas(width, height).parent(container)
