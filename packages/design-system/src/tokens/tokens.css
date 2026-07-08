@@ -63,6 +63,15 @@
   --font-size-3xl: 3rem;
   --font-size-4xl: 4rem;
 
+  /*
+   * Display/hero scale — fluid, viewport-scaled, deliberately oversized for bleed-friendly
+   * shell moments (homepage hero, section dividers). Reserved for shell contexts per
+   * docs/design-layout-references.md's "shell bold, reading calm" split — never long-form
+   * reading body text, which stays on the fixed scale above.
+   */
+  --font-size-display: clamp(3rem, 1rem + 7vw, 6rem);
+  --font-size-hero: clamp(4rem, 1rem + 13vw, 11rem);
+
   --line-height-reading: 1.6;
   --line-height-ui: 1.4;
   --line-height-headline: 1.1;
@@ -84,6 +93,13 @@
   --space-8: 4rem;
   --space-9: 6rem;
   --space-10: 8rem;
+
+  /*
+   * Layout — the constrained reading column. Shell/hero sections deliberately break out of
+   * this (full-bleed) per docs/design-layout-references.md; long-form reading content stays
+   * inside it.
+   */
+  --content-max-width: 64rem;
 
   /* Motion — mechanical register for everyday micro-interactions */
   --motion-duration-fast: 100ms;

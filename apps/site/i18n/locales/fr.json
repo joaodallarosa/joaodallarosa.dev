@@ -7,5 +7,10 @@
   },
   "language": {
     "label": "Langue"
+  },
+  "devMode": {
+    "label": "Mode développeur",
+    "on": "Activé",
+    "off": "Désactivé"
   }
 }

@@ -4,12 +4,9 @@ import ReactButtonIsland from '~/components/showcase/ReactButtonIsland.vue'
 const kinds = ['project', 'post', 'note', 'log'] as const
 const tagLabels = ['nuxt', 'lit', 'design-systems', 'accessibility']
 
-const devMode = ref(false)
-
-function toggleDevMode() {
-  devMode.value = !devMode.value
-  document.documentElement.toggleAttribute('data-dev-mode', devMode.value)
-}
+// Shared with the site-wide footer toggle (PROJECT.md §4 / Phase 3) — toggling here or
+// in the footer reflects everywhere, since it's the same persisted state.
+const { devMode, toggle: toggleDevMode } = useDevMode()
 </script>
 
 <template>
