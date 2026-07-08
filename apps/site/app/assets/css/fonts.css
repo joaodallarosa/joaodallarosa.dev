@@ -1,0 +1,15 @@
+/*
+ * Custom licensed font-face declarations that don't fit the @fontsource pattern used for
+ * Fraunces/JetBrains Mono (see nuxt.config.ts). Oldenorth is a purchased display face, not on
+ * Google Fonts/@fontsource — self-hosted here from public/fonts, with its licensed source kept
+ * out of the repo (see apps/site/font-sources/, gitignored) since this repo is public and most
+ * commercial font EULAs don't permit redistributing the original file.
+ */
+
+@font-face {
+  font-family: 'Oldenorth';
+  src: url('/fonts/oldenorth-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

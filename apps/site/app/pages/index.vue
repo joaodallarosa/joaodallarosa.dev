@@ -1,59 +1,33 @@
 <script setup lang="ts">
-import { ENTRY_COLLECTIONS } from '~/composables/useEntry'
-
-const { locale } = useI18n()
-const localePath = useLocalePath()
-const route = useRoute()
-const { devMode } = useDevMode()
-
 useSeoMeta({
   description: 'Personal publication and working lab — projects, posts, notes, and logs from Joao Dallarosa.',
 })
 
-const kindFilter = computed(() => {
-  const kind = route.query.kind
-  return typeof kind === 'string' && ENTRY_COLLECTIONS.includes(kind as never) ? kind : null
-})
+const featuredBrand = { name: 'Valtech', src: '/images/brands/valtech.svg', ratio: 159 / 36 }
 
-const { data: entries } = await useAsyncData(
-  () => `home-feed-${locale.value}-${kindFilter.value ?? 'all'}`,
-  async () => {
-    const collections = kindFilter.value ? [kindFilter.value as typeof ENTRY_COLLECTIONS[number]] : ENTRY_COLLECTIONS
-    const results = await Promise.all(
-      collections.map(collection =>
-        queryCollection(collection)
-          .where('status', '=', 'published')
-          .where('locale', '=', locale.value)
-          .all(),
-      ),
-    )
-    return results.flat().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  },
-  { watch: [locale, kindFilter] },
-)
+const shippedForBrands = [
+  { name: 'Louis Vuitton', src: '/images/brands/louis-vuitton.png', ratio: 4610 / 590 },
+  { name: 'L’Oréal', src: '/images/brands/loreal.svg', ratio: 800 / 144.748 },
+  { name: 'Lancôme', src: '/images/brands/lancome.svg', ratio: 156.78157 / 37.101406 },
+  { name: 'Redken', src: '/images/brands/redken.svg', ratio: 189.7150896 / 52.2279596 },
+  { name: 'Giorgio Armani', src: '/images/brands/giorgio-armani.svg', ratio: 285.52 / 31.739 },
+  { name: 'Yves Saint Laurent', src: '/images/brands/ysl.svg', ratio: 576.2217 / 120.1528 },
+  { name: 'Garnier', src: '/images/brands/garnier.svg', ratio: 1962 / 470 },
+  { name: 'Maybelline', src: '/images/brands/maybelline.svg', ratio: 241 / 53 },
+  { name: 'La Roche-Posay', src: '/images/brands/la-roche-posay.svg', ratio: 283.84399 / 121.631 },
+]
 
-const dateFormatter = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
-function formatDate(value: string | Date) {
-  return dateFormatter.format(new Date(value)).toUpperCase()
-}
-
-// Archive Log composition (Phase 4 "Liquid Obsidian" pass): entries alternate width/alignment
-// in a stacked flow rather than a uniform grid — the earlier grid-of-tiles draft was rejected
-// as reading like a checklist of patterns instead of a composed layout. Cycles so it still
-// reads intentionally past three entries.
-const LOG_LAYOUTS = ['log-item--wide-left', 'log-item--narrow-right', 'log-item--center']
-function layoutClass(index: number) {
-  return LOG_LAYOUTS[index % LOG_LAYOUTS.length]
-}
-function objectTag(index: number) {
-  return `OBJ_${String(index + 1).padStart(2, '0')}`
-}
-function figureTag(index: number) {
-  return `FIG. ${String.fromCharCode(65 + (index % 26))}`
-}
-
-const marqueeItems = ['/// joaodallarosa.dev', 'personal publication', 'working lab', 'projects — posts — notes — logs']
-const marqueeRepeats = Array.from({ length: 4 })
+const techStack = [
+  { name: 'JavaScript', src: '/images/tech/javascript.svg', ratio: 1 },
+  { name: 'TypeScript', src: '/images/tech/typescript.svg', ratio: 1 },
+  { name: 'Vue.js', src: '/images/tech/vuedotjs.svg', ratio: 1 },
+  { name: 'Nuxt', src: '/images/tech/nuxtdotjs.svg', ratio: 1 },
+  { name: 'Node.js', src: '/images/tech/nodedotjs.svg', ratio: 1 },
+  { name: 'Vite', src: '/images/tech/vite.svg', ratio: 1 },
+  { name: 'Lit', src: '/images/tech/lit.svg', ratio: 1 },
+  { name: 'Storybook', src: '/images/tech/storybook.svg', ratio: 1 },
+  { name: 'Git', src: '/images/tech/git.svg', ratio: 1 },
+]
 </script>
 
 <template>
@@ -71,131 +45,60 @@ const marqueeRepeats = Array.from({ length: 4 })
         LAB
       </p>
 
-      <p class="hero-eyebrow">
-        Personal site / design system lab
-      </p>
-
-      <h1 class="hero-mark">
-        <span class="hero-mark-line hero-mark-line--crop">joao</span>
-        <span class="hero-mark-line hero-mark-line--accent">dallarosa</span>
-      </h1>
-
-      <div class="hero-panel">
-        <p class="hero-panel-text">
-          A personal publication with a working lab attached — dev projects, creative
-          coding, and everything else, in one voice.
-        </p>
-        <div class="hero-panel-links">
-          <NuxtLink :to="{ path: localePath('/'), query: { kind: 'project' } }">
-            Projects
-          </NuxtLink>
-          <NuxtLink :to="{ path: localePath('/'), query: { kind: 'post' } }">
-            Posts →
-          </NuxtLink>
-        </div>
-      </div>
-
-      <div class="hero-meta">
-        <p>LOCALE: {{ locale.toUpperCase() }}</p>
-        <p>ENTRIES INDEXED: {{ entries?.length ?? 0 }}</p>
-        <div
-          class="hero-status"
-          :class="{ 'is-dev': devMode }"
-        >
-          <span class="hero-status-dot" />
-          SYS.STATUS: {{ devMode ? 'DEV MODE' : 'ONLINE' }}
-        </div>
-      </div>
-    </section>
-
-    <div
-      class="marquee"
-      aria-hidden="true"
-    >
-      <div class="marquee-track">
-        <template
-          v-for="i in marqueeRepeats"
-          :key="i"
-        >
-          <span
-            v-for="item in marqueeItems"
-            :key="item"
-            class="marquee-item"
-          >{{ item }}</span>
-        </template>
-      </div>
-    </div>
-
-    <section
-      class="log"
-      data-devmode-label="home[archive-log]"
-    >
-      <div class="log-header">
-        <h2>Archive Log</h2>
-        <p class="log-index-label">
-          Index of entries
-        </p>
-      </div>
-
-      <div
-        v-if="entries?.length"
-        class="log-list"
-      >
-        <article
-          v-for="(entry, index) in entries"
-          :key="entry.path"
-          class="log-item"
-          :class="layoutClass(index)"
-        >
-          <div
-            v-if="entry.cover"
-            class="log-image-frame"
-          >
-            <NuxtImg
-              :src="entry.cover.src"
-              :alt="entry.cover.alt"
-              class="log-image"
-              loading="lazy"
-              sizes="100vw sm:50vw md:32rem"
-            />
-            <span class="log-tag log-tag--obj">{{ objectTag(index) }}</span>
-            <span class="log-tag log-tag--fig">{{ figureTag(index) }}</span>
-          </div>
-          <span
-            v-else
-            class="log-index-numeral"
+      <div class="hero-header">
+        <h1 class="hero-mark">
+          <span class="hero-mark-line">JOÃO</span>
+          <span class="hero-mark-line hero-mark-line--accent">DALLA</span>
+          <span class="hero-mark-line hero-mark-line--accent">ROSA<span
+            class="hero-mark-ornament"
             aria-hidden="true"
-          >{{ String(index + 1).padStart(2, '0') }}</span>
+          >†</span></span>
+        </h1>
 
-          <div class="log-panel">
-            <div class="log-panel-meta">
-              <span
-                class="log-kind"
-                :data-kind="entry.kind"
-              >{{ entry.kind }}</span>
-              <span class="log-date">{{ formatDate(entry.date) }}</span>
-            </div>
-            <h3 class="log-title">
-              {{ entry.title }}
-            </h3>
-            <p class="log-description">
-              {{ entry.description }}
+        <!-- Hidden for now, not removed — may bring this eyebrow tag back later. -->
+        <div class="hero-top">
+          <div class="glass-panel hero-eyebrow-panel">
+            <p class="hero-eyebrow">
+              Web Engineer / design system lab / other stuff
             </p>
-            <NuxtLink
-              :to="localePath(entry.path)"
-              class="log-cta"
-            >
-              Read entry →
-            </NuxtLink>
           </div>
-        </article>
+        </div>
       </div>
-      <p
-        v-else
-        class="log-empty"
-      >
-        No published entries yet.
-      </p>
+
+      <div class="hero-bottom">
+        <div class="glass-panel hero-panel hero-resume">
+          <div class="hero-resume-header">
+            <span
+              class="hero-resume-featured-logo"
+              role="img"
+              :aria-label="featuredBrand.name"
+              :style="{ '--logo-src': `url(${featuredBrand.src})`, 'aspect-ratio': featuredBrand.ratio }"
+            />
+            <p class="hero-resume-role">
+              Lead Frontend Engineer
+            </p>
+          </div>
+
+          <p class="hero-panel-text">
+            I help teams — of any size — ship production-grade web experiences,
+            from a one-off animation to large-scale e-commerce.
+          </p>
+
+          <div class="hero-resume-brands">
+            <p class="hero-resume-eyebrow">
+              Shiped for
+            </p>
+            <LogoCarousel :items="shippedForBrands" />
+          </div>
+
+          <div class="hero-resume-tech">
+            <p class="hero-resume-eyebrow">
+              Tech I use
+            </p>
+            <LogoCarousel :items="techStack" />
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -228,18 +131,50 @@ const marqueeRepeats = Array.from({ length: 4 })
   }
 }
 
-.hero,
-.marquee,
-.log {
+/*
+ * Hero fills the viewport and anchors its content to the top/bottom edges (pattern #7): the
+ * flow field's Clifford-attractor field is centered on the canvas (see flow-field-sketch.ts),
+ * so the vertical middle is where its swirling motion is most legible — content is pushed to
+ * the corners instead of stacking straight down the center to leave that band open.
+ */
+.hero {
   width: var(--site-body-width);
   margin-left: calc(-1 * (var(--main-inset) + var(--space-6)));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-9);
+  min-height: calc(100vh - var(--space-8) * 2);
+  padding: var(--space-2) var(--space-6) var(--space-8);
+  overflow: hidden;
 }
 
-.hero {
+.hero-header {
   position: relative;
-  padding: var(--space-9) var(--space-6) var(--space-8);
-  overflow: hidden;
-  border-bottom: 1px solid var(--color-border);
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* Hidden for now (see template) — not removed, this eyebrow tag may come back later. */
+.hero-top {
+  display: none;
+  max-width: 44rem;
+}
+
+.hero-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  /* Only the resume card lives here now (hero-meta was removed) — anchor it to the right
+     instead of relying on space-between, which would collapse a lone child to the left. */
+  justify-content: flex-end;
+  gap: var(--space-6);
 }
 
 .hero-watermark {
@@ -261,30 +196,38 @@ const marqueeRepeats = Array.from({ length: 4 })
   user-select: none;
 }
 
+.hero-eyebrow-panel {
+  display: inline-block;
+  padding: var(--space-3) var(--space-4);
+}
+
 .hero-eyebrow {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 var(--space-6);
-  padding-left: var(--space-4);
+  margin: 0;
   font-family: var(--font-family-mono);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-mono-em);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--color-accent);
-  border-left: 2px solid var(--color-accent);
 }
 
-/* Violent scale contrast (pattern #2): the wordmark sits at the hero/display scale while the
-   eyebrow/meta text stays at --font-size-xs — no stepped middle sizes bridging the two. */
+/* Violent scale contrast (pattern #2): the wordmark sits well above the eyebrow/meta text's
+   --font-size-xs — no stepped middle sizes bridging the two.
+   Stacked JOÃO / DALLA / ROSA in the top-left corner, left-aligned, so the flow field's
+   swirl stays open across the rest of the hero. */
 .hero-mark {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 var(--space-8);
-  font-family: var(--font-family-serif);
-  font-weight: var(--font-weight-display);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  /* Oldenorth (see tokens.css) — a single static weight, no italic cut, so this rule
+     deliberately doesn't set font-weight or font-style: the browser would otherwise fake a
+     bolder/oblique version of a face that has neither. */
+  font-family: var(--font-family-display-gothic);
   line-height: var(--line-height-headline);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  text-align: left;
 }
 
 .hero-mark-line {
@@ -293,27 +236,27 @@ const marqueeRepeats = Array.from({ length: 4 })
 }
 
 .hero-mark-line--accent {
-  font-size: var(--font-size-display);
-  font-style: italic;
-  text-align: right;
-  padding-right: var(--space-6);
+  font-size: var(--font-size-hero);
   color: var(--color-accent);
 }
 
-/* Bleed/crop (pattern #1): pulled past the left edge and clipped by .hero's overflow: hidden,
-   rather than sized to comfortably fit a padded box. */
-.hero-mark-line--crop {
-  margin-left: -0.08em;
+/* Echoes the reference brief's small cross/dagger ornament — the typeface's own glyph, not an
+   icon font, so it inherits Oldenorth's exact linework. */
+.hero-mark-ornament {
+  margin-left: 0.15em;
+  font-size: 0.55em;
+  vertical-align: baseline;
 }
 
 /*
  * Liquid glass data panel (Phase 4 addendum) — a persistent structural panel, not a transient
  * overlay; see docs/design-prompt.md's addendum for why that's now in-scope for --glass-*.
+ * Shared by the hero panel and the eyebrow label so both corner/edge annotations read as the
+ * same glass surface.
  */
-.hero-panel {
+.glass-panel {
   position: relative;
   z-index: 1;
-  max-width: 34rem;
   padding: var(--space-6);
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur));
@@ -322,8 +265,8 @@ const marqueeRepeats = Array.from({ length: 4 })
   border-radius: 2px;
 }
 
-.hero-panel::before,
-.hero-panel::after {
+.glass-panel::before,
+.glass-panel::after {
   content: '';
   position: absolute;
   width: 12px;
@@ -332,18 +275,22 @@ const marqueeRepeats = Array.from({ length: 4 })
   opacity: 0.8;
 }
 
-.hero-panel::before {
+.glass-panel::before {
   top: -1px;
   right: -1px;
   border-top: 2px solid var(--color-accent);
   border-right: 2px solid var(--color-accent);
 }
 
-.hero-panel::after {
+.glass-panel::after {
   bottom: -1px;
   left: -1px;
   border-bottom: 2px solid var(--color-accent);
   border-left: 2px solid var(--color-accent);
+}
+
+.hero-panel {
+  max-width: 34rem;
 }
 
 .hero-panel-text {
@@ -355,326 +302,84 @@ const marqueeRepeats = Array.from({ length: 4 })
   color: var(--color-text);
 }
 
-.hero-panel-links {
-  display: flex;
-  justify-content: space-between;
-  padding-top: var(--space-4);
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  border-top: 1px solid var(--glass-border);
-}
-
-.hero-meta {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-4) var(--space-6);
-  margin-top: var(--space-8);
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.hero-meta p {
-  margin: 0;
-}
-
-.hero-status {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border);
-}
-
-.hero-status.is-dev {
-  color: var(--color-accent);
-  border-color: var(--glass-border-accent);
-}
-
-.hero-status-dot {
-  width: 6px;
-  height: 6px;
-  background: currentColor;
-  border-radius: 50%;
-}
-
-.marquee {
-  overflow: hidden;
-  background: var(--color-bg-raised);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  padding: var(--space-2) 0;
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-sm);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-  animation: marquee 28s linear infinite;
-}
-
-.marquee-item {
-  padding-right: var(--space-6);
-}
-
-.marquee-item:nth-child(4n + 1) {
-  color: var(--color-accent);
-  opacity: 0.8;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
-
-.log {
-  padding: var(--space-9) var(--space-6);
-}
-
-.log-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding-bottom: var(--space-6);
-  margin-bottom: var(--space-9);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.log-header h2 {
-  margin: 0;
-  font-size: var(--font-size-3xl);
-}
-
-.log-index-label {
-  margin: 0;
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.log-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-9);
-}
-
-/* Asymmetric composition (pattern #4): alternating width/alignment in a stacked flow, not a
-   uniform grid of equal tiles. */
-.log-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
-
-.log-item--wide-left {
-  width: 68%;
-  margin-right: auto;
-}
-
-.log-item--narrow-right {
-  width: 50%;
-  margin-left: auto;
-}
-
-.log-item--center {
-  width: 78%;
-  margin: 0 auto;
-}
-
-.log-image-frame {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border);
-}
-
-.log-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(60%);
-  transition: filter var(--motion-duration-slow) var(--motion-easing-fluid), transform var(--motion-duration-slow) var(--motion-easing-fluid);
-}
-
-.log-item:hover .log-image {
-  filter: grayscale(0%);
-  transform: scale(1.02);
-}
-
-.log-tag {
-  position: absolute;
-  padding: var(--space-1) var(--space-2);
-  font-family: var(--font-family-mono);
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.log-tag--obj {
-  top: var(--space-3);
-  left: var(--space-3);
-  color: var(--color-bg);
-  background: var(--color-accent);
-}
-
-.log-tag--fig {
-  right: var(--space-3);
-  bottom: var(--space-3);
-  color: var(--color-text-muted);
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
-}
-
-.log-index-numeral {
-  position: absolute;
-  top: -0.3em;
-  right: var(--space-4);
-  z-index: 0;
-  font-family: var(--font-family-serif);
-  font-style: italic;
-  font-size: 8rem;
-  font-weight: 900;
-  line-height: 1;
-  color: var(--color-bg-raised);
-  pointer-events: none;
-  user-select: none;
-}
-
-.log-panel {
-  position: relative;
-  z-index: 1;
-  padding: var(--space-6);
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border: 1px solid var(--glass-border);
-}
-
-.log-item:hover .log-panel {
-  border-color: var(--glass-border-accent);
-}
-
-.log-panel-meta {
+.hero-resume-header {
   display: flex;
   align-items: center;
   gap: var(--space-4);
   margin-bottom: var(--space-4);
 }
 
-.log-kind {
-  padding: var(--space-1) var(--space-2);
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: 1px solid currentColor;
-}
-
-.log-kind[data-kind='project'] {
-  color: var(--color-kind-project);
-}
-
-.log-kind[data-kind='post'] {
-  color: var(--color-kind-post);
-}
-
-.log-kind[data-kind='note'] {
-  color: var(--color-kind-note);
-}
-
-.log-kind[data-kind='log'] {
-  color: var(--color-kind-log);
-}
-
-.log-date {
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-}
-
-.log-title {
-  margin: 0 0 var(--space-3);
-  font-size: var(--font-size-xl);
-}
-
-.log-description {
-  max-width: 60ch;
-  margin: 0 0 var(--space-4);
-  color: var(--color-text-muted);
-}
-
-.log-cta {
+.hero-resume-featured-logo {
   display: inline-block;
+  flex-shrink: 0;
+  width: auto;
+  height: 30px;
+  background-color: var(--color-text);
+  /* Same currentColor-mask + real-aspect-ratio technique as LogoCarousel.vue's .brand-logo,
+     so the featured Valtech mark and the rotating strips stay in sync across the light/dark
+     toggle and none of them get squeezed into a fixed box. */
+  -webkit-mask-image: var(--logo-src);
+  mask-image: var(--logo-src);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.hero-resume-role {
+  margin: 0;
+  padding-left: var(--space-4);
   font-family: var(--font-family-mono);
   font-size: var(--font-size-xs);
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-text-muted);
+  border-left: 1px solid var(--glass-border);
 }
 
-.log-empty {
-  padding: var(--space-8) var(--space-6);
+.hero-resume-brands {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--glass-border);
+}
+
+.hero-resume-tech {
+  margin-top: var(--space-4);
+}
+
+.hero-resume-eyebrow {
+  margin: 0 0 var(--space-3);
   font-family: var(--font-family-mono);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
-  text-align: center;
-  border: 1px dashed var(--color-border);
 }
 
 @media (max-width: 640px) {
+  .hero {
+    min-height: 0;
+  }
+
   .hero-watermark {
     display: none;
   }
 
-  .hero-mark-line--accent {
-    text-align: left;
-    padding-right: 0;
+  .hero-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  .hero-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-6);
   }
 
   .hero-panel {
     max-width: none;
-  }
-
-  .log-item--wide-left,
-  .log-item--narrow-right,
-  .log-item--center {
-    width: 100%;
-    margin: 0;
-  }
-
-  .log-index-numeral {
-    font-size: 5rem;
   }
 }
 </style>

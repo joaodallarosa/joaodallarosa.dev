@@ -4,11 +4,21 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 # Typography
 
-Two families: `--font-family-serif` (Fraunces, editorial voice — headlines, body prose) and
-`--font-family-mono` (JetBrains Mono, structural/UI voice — labels, badges, Developer Mode).
-Both are self-hosted via `@fontsource` (Phase 5) — one weight/style import per actual use
-(400/500/600 + 600-italic/900-italic serif, 300/400/500 mono), not the full family or a
-variable-font axis range. See `PROJECT.md` Phase 5.
+Three families: `--font-family-serif` (Fraunces, editorial voice — headlines, body prose),
+`--font-family-mono` (JetBrains Mono, structural/UI voice — labels, badges, Developer Mode), and
+`--font-family-display-gothic` (Oldenorth, graphic/shout voice — reserved for the single boldest
+shell moment, currently just the homepage wordmark in `index.vue`'s `.hero-mark`). The first two
+are self-hosted via `@fontsource` — one weight/style import per actual use (400/500/600 +
+600-italic/900-italic serif, 300/400/500 mono), not the full family or a variable-font axis
+range. Oldenorth is a purchased font, not on `@fontsource`/Google Fonts: it's self-hosted from
+`apps/site/public/fonts` via a hand-written `@font-face` (`apps/site/app/assets/css/fonts.css`),
+with its licensed source kept out of this public repo (`apps/site/font-sources/`, gitignored) —
+see tokens.css's comment on `--font-family-display-gothic`. Because that font file only lives in
+`apps/site`, not here in `packages/design-system`, this page can't render a live sample of it
+(no `Sample` block below for that token — it would just fall back to Fraunces in Storybook). It
+ships one static weight and no italic, so anything using `--font-family-display-gothic` should
+skip `font-weight`/`font-style: italic` rather than let the browser synthesize them. See
+`PROJECT.md` Phase 5.
 
 export const Sample = ({ varName, family = '--font-family-serif', weight }) => (
   <p
@@ -49,6 +59,13 @@ the preview frame to see them scale with the viewport. Never used in long-form r
 
 <Sample varName="--font-size-display" />
 <Sample varName="--font-size-hero" />
+
+## Display-gothic / graphic voice
+
+`--font-family-display-gothic` (Oldenorth, licensed — see the intro above). Reserved for the
+single boldest shell moment — currently only the homepage wordmark. Not a general-purpose
+headline family; reach for the serif display scale above first. No live sample here since the
+font file isn't duplicated into this package — see it live on the homepage instead.
 
 ## Mono / structural voice
 

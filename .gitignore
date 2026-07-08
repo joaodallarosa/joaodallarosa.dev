@@ -15,6 +15,11 @@ storybook-static
 packages/design-system/.storybook/custom-elements.json
 apps/site/public/storybook
 
+# Purchased/licensed desktop font sources — most commercial font EULAs allow self-hosting a
+# converted webfont (see apps/site/public/fonts) but not redistributing the original file, and
+# this repo is public. Keep the source local only.
+apps/site/font-sources
+
 # TypeScript incremental build info
 *.tsbuildinfo
 

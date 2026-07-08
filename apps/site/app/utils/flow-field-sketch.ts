@@ -23,46 +23,49 @@ export type FlowFieldScheme = keyof typeof SCHEME_PALETTE
 const FLOW_FIELD = {
   field: {
     // Spatial frequency of the Clifford-attractor field. Smaller = larger, slower-turning eddies.
-    scale: 0.007,
+    scale: 0.0092,
     // a, b, c, d are randomized every mount within [-attractorRange, attractorRange].
-    attractorRange: 2,
+    attractorRange: 4,
+    // Iterations used to locate the map's visual center of mass — see estimateAttractorCenter.
+    centeringWarmupSteps: 50,
+    centeringSampleSteps: 2000,
   },
   particles: {
-    minCount: 160,
+    minCount: 120,
     maxCount: 260,
     // px^2 of viewport area per particle — controls how count scales with screen size.
     areaPerParticle: 8000,
     // Initial rightward velocity when a particle (re)enters at the left edge.
-    spawnSpeed: 26,
+    spawnSpeed: 6,
     // How strongly velocity is pulled toward the field direction each frame.
-    accel: 0.75,
+    accel: 0.15,
     // Per-frame velocity decay (< 1). Lower = looser/more fluid, higher = stiffer.
-    damping: 0.985,
+    damping: 0.992,
     // Ink stroke thickness varies per particle within this range for a hand-drawn feel.
-    strokeWeightMin: 0.2,
+    strokeWeightMin: 0.8,
     strokeWeightMax: 1.8,
     // Ink opacity (0-255) varies per particle so overlapping strokes pool darker, like real ink.
     // Muted charcoal-on-paper needs more coverage than a glowing color would to read clearly.
     alphaMin: 50,
-    alphaMax: 135,
+    alphaMax: 235,
   },
   trail: {
     // Alpha erased from existing ink per frame (0-255, see erase() in the draw loop below).
     // Lower = trails linger longer and pool darker where strokes overlap, like ink diffusing
     // into paper rather than a signal that blips and vanishes.
-    fadeErase: 13,
+    fadeErase: 10,
   },
   // Dotted-notebook paper texture — a square dot grid, tiled as CSS background on the
   // container (see applyPaperTexture). Adjust freely; all knobs are read live per mount.
   paper: {
     // Distance in px between dot centers — also the tile size, so it must stay a whole
     // number for the grid to tile without seams.
-    dotSpacing: 32,
+    dotSpacing: 64,
     dotRadius: 1.3,
     // Dot opacity (0-255) over the paper color.
-    dotAlpha: 125,
+    dotAlpha: 225,
     // Subtle per-pixel paper grain underneath the dots (0 = perfectly flat paper color).
-    grainStrength: 10,
+    grainStrength: 5,
   },
   // Cursor repel — particles within repelRadius px of the pointer get pushed away from it,
   // strongest at the center and fading to nothing at the radius edge. No effect on touch
@@ -86,6 +89,10 @@ interface AttractorParams {
   b: number
   c: number
   d: number
+  // Where the chaotic map's iterates actually cluster, in the same field-space units as
+  // fieldAngle's nx/ny — see estimateAttractorCenter. Almost never (0, 0).
+  centerX: number
+  centerY: number
 }
 
 interface Pointer {
@@ -98,24 +105,53 @@ function randomBetween(min: number, max: number) {
   return min + Math.random() * (max - min)
 }
 
+function attractorMap(x: number, y: number, { a, b, c, d }: Pick<AttractorParams, 'a' | 'b' | 'c' | 'd'>): [number, number] {
+  return [d * Math.sin(a * x) - Math.sin(b * y), c * Math.cos(a * x) + Math.cos(b * y)]
+}
+
+// The chaotic map's iterates don't cluster around (0, 0) in general — where they settle depends
+// on a, b, c, d. Left uncorrected, that offset becomes a *fixed pixel* offset from canvas center
+// once scaled into field space (see fieldAngle), which reads as roughly centered on a large
+// screen but can push the pattern badly off-center — even off-screen — on a small one. Iterating
+// the map and averaging a run of its output locates that cluster so fieldAngle can use it as the
+// field's true origin instead, keeping the busiest part of the pattern screen-centered at any
+// viewport size.
+function estimateAttractorCenter(params: Pick<AttractorParams, 'a' | 'b' | 'c' | 'd'>) {
+  let x = 0
+  let y = 0
+  for (let i = 0; i < FLOW_FIELD.field.centeringWarmupSteps; i++) [x, y] = attractorMap(x, y, params)
+
+  let sumX = 0
+  let sumY = 0
+  const samples = FLOW_FIELD.field.centeringSampleSteps
+  for (let i = 0; i < samples; i++) {
+    [x, y] = attractorMap(x, y, params)
+    sumX += x
+    sumY += y
+  }
+  return { centerX: sumX / samples, centerY: sumY / samples }
+}
+
 function randomAttractorParams(): AttractorParams {
   const r = FLOW_FIELD.field.attractorRange
-  return {
+  const params = {
     a: randomBetween(-r, r),
     b: randomBetween(-r, r),
     c: randomBetween(-r, r),
     d: randomBetween(-r, r),
   }
+  return { ...params, ...estimateAttractorCenter(params) }
 }
 
 // Clifford-attractor-derived field: the value at (x, y) is the angle from that point to its
 // image under the attractor map, which gives the field its looping, current-like structure
-// instead of the turbulence a noise-based field would produce.
-function fieldAngle(x: number, y: number, width: number, height: number, { a, b, c, d }: AttractorParams) {
-  const nx = (x - width / 2) * FLOW_FIELD.field.scale
-  const ny = (y - height / 2) * FLOW_FIELD.field.scale
-  const x1 = d * Math.sin(a * nx) - Math.sin(b * ny)
-  const y1 = c * Math.cos(a * nx) + Math.cos(b * ny)
+// instead of the turbulence a noise-based field would produce. Sampling is centered on the
+// map's own center of mass (centerX/centerY), not the field-space origin — see
+// estimateAttractorCenter for why that distinction matters.
+function fieldAngle(x: number, y: number, width: number, height: number, params: AttractorParams) {
+  const nx = params.centerX + (x - width / 2) * FLOW_FIELD.field.scale
+  const ny = params.centerY + (y - height / 2) * FLOW_FIELD.field.scale
+  const [x1, y1] = attractorMap(nx, ny, params)
   return Math.atan2(y1 - ny, x1 - nx)
 }
 

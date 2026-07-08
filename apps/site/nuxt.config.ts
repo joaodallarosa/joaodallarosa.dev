@@ -30,6 +30,8 @@ export default defineNuxtConfig({
     '@fontsource/jetbrains-mono/500.css',
     'design-system/tokens.css',
     'design-system/hydration.css',
+    // Custom licensed font-face (Oldenorth) — not a @fontsource package; see fonts.css.
+    '~/assets/css/fonts.css',
     '~/assets/css/base.css',
   ],
   vue: {
