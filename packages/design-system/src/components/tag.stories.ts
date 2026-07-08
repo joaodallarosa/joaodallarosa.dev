@@ -21,7 +21,7 @@ const meta: Meta<TagArgs> = {
     selected: false,
     label: 'nuxt',
   },
-  render: (args) => html`
+  render: args => html`
     <ds-tag ?selected=${args.selected}>${args.label}</ds-tag>
   `,
 }

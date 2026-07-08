@@ -12,12 +12,15 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@fontsource/fraunces": "^5.2.9",
+    "@fontsource/jetbrains-mono": "^5.2.8",
     "@nuxt/content": "^3.15.0",
     "@nuxtjs/i18n": "^10.4.0",
     "better-sqlite3": "^12.5.0",
     "design-system": "workspace:*",
     "nuxt": "^4.4.8",
     "nuxt-studio": "1.7.0",
+    "p5": "^2.3.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "vue": "^3.5.39",

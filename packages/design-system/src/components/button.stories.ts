@@ -33,7 +33,7 @@ const meta: Meta<ButtonArgs> = {
     type: 'button',
     label: 'Publish',
   },
-  render: (args) => html`
+  render: args => html`
     <ds-button
       variant=${args.variant}
       ?disabled=${args.disabled}

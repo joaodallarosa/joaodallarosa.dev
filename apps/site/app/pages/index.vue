@@ -6,6 +6,13 @@ const localePath = useLocalePath()
 const route = useRoute()
 const { devMode } = useDevMode()
 
+// Homepage-only re-theme for the ink-on-paper flow field background (Phase 5): flips every
+// dark-mode-first token in tokens.css to its existing [data-color-scheme='light'] override.
+// Scoped to this page via useHead's component lifecycle — Nuxt/unhead removes this htmlAttrs
+// entry on navigation away, reverting <html> to the default (dark) scheme automatically, and
+// it's applied during SSR too so there's no dark-then-light flash on first load.
+useHead({ htmlAttrs: { 'data-color-scheme': 'light' } })
+
 const kindFilter = computed(() => {
   const kind = route.query.kind
   return typeof kind === 'string' && ENTRY_COLLECTIONS.includes(kind as never) ? kind : null
@@ -54,6 +61,8 @@ const marqueeRepeats = Array.from({ length: 4 })
 
 <template>
   <div class="home">
+    <FlowFieldBackground />
+
     <section
       class="hero"
       data-devmode-label="home[hero]"

@@ -16,9 +16,9 @@ const meta: Meta<BadgeArgs> = {
     docs: {
       description: {
         component:
-          'Non-interactive kind/status indicator. Kind hues and status colors are deliberately ' +
-          'separate palettes (docs/design-prompt.md §1) so status reads independently of content kind — ' +
-          'set either `kind` or `status`, not both, in real usage.',
+          'Non-interactive kind/status indicator. Kind hues and status colors are deliberately '
+          + 'separate palettes (docs/design-prompt.md §1) so status reads independently of content kind — '
+          + 'set either `kind` or `status`, not both, in real usage.',
       },
     },
   },
@@ -40,7 +40,7 @@ const meta: Meta<BadgeArgs> = {
     kind: 'project',
     label: 'project',
   },
-  render: (args) => html`
+  render: args => html`
     <ds-badge
       kind=${args.kind ?? ''}
       status=${args.status ?? ''}

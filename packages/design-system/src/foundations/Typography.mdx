@@ -6,8 +6,9 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 Two families: `--font-family-serif` (Fraunces, editorial voice — headlines, body prose) and
 `--font-family-mono` (JetBrains Mono, structural/UI voice — labels, badges, Developer Mode).
-Font self-hosting is still deferred (currently falling back to Georgia/monospace); see
-`PROJECT.md` Phase 2.
+Both are self-hosted via `@fontsource` (Phase 5) — one weight/style import per actual use
+(400/500/600 + 600-italic/900-italic serif, 300/400/500 mono), not the full family or a
+variable-font axis range. See `PROJECT.md` Phase 5.
 
 export const Sample = ({ varName, family = '--font-family-serif', weight }) => (
   <p

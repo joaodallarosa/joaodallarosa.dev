@@ -18,9 +18,9 @@ const meta: Meta<CardArgs> = {
     docs: {
       description: {
         component:
-          'Entry preview container (homepage feed, related-entry lists). Named slots: `cover`, ' +
-          '`title`, `badge`, default (excerpt body), `footer` (meta). `kind` tints the left accent ' +
-          'border via `--card-accent`.',
+          'Entry preview container (homepage feed, related-entry lists). Named slots: `cover`, '
+          + '`title`, `badge`, default (excerpt body), `footer` (meta). `kind` tints the left accent '
+          + 'border via `--card-accent`.',
       },
     },
   },
@@ -39,7 +39,7 @@ const meta: Meta<CardArgs> = {
     body: 'Stripped, sanded, and re-oiled the shop workbench over a long weekend.',
     footer: '2026-07-02 · woodworking',
   },
-  render: (args) => html`
+  render: args => html`
     <ds-card
       kind=${args.kind ?? ''}
       style="max-width: 24rem;"

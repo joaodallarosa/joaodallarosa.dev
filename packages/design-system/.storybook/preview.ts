@@ -2,6 +2,17 @@ import type { Preview } from '@storybook/web-components'
 import { setCustomElementsManifest } from '@storybook/web-components'
 import customElements from './custom-elements.json'
 import '../src/index.ts'
+// Self-hosted, matching apps/site/nuxt.config.ts — one entry per weight/style actually used
+// (see tokens.css's --font-weight-* values plus Typography.mdx's own weight samples), not the
+// full family or a variable-font axis range.
+import '@fontsource/fraunces/400.css'
+import '@fontsource/fraunces/500.css'
+import '@fontsource/fraunces/600.css'
+import '@fontsource/fraunces/600-italic.css'
+import '@fontsource/fraunces/900-italic.css'
+import '@fontsource/jetbrains-mono/300.css'
+import '@fontsource/jetbrains-mono/400.css'
+import '@fontsource/jetbrains-mono/500.css'
 import '../src/tokens/tokens.css'
 import '../src/styles/hydration.css'
 
