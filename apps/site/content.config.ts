@@ -1,6 +1,19 @@
 import { defineCollection, defineContentConfig } from '@nuxt/content'
 import { z } from 'zod'
 
+// Translated entries live under a locale-first subdirectory (e.g. `fr/post/*.md`) so
+// Nuxt Content's auto-derived route prefix carries the locale segment the URL needs
+// (`/fr/post/<name>`) — @nuxtjs/i18n's `prefix_except_default` strategy then resolves
+// it correctly with no further wiring. `en` stays unprefixed at the collection root.
+const TRANSLATED_LOCALES = ['fr', 'pt-BR'] as const
+
+function localizedSource(collection: string) {
+  return [
+    { include: `${collection}/**/*.md` },
+    ...TRANSLATED_LOCALES.map(locale => ({ include: `${locale}/${collection}/**/*.md` })),
+  ]
+}
+
 const baseSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
@@ -20,7 +33,7 @@ export default defineContentConfig({
   collections: {
     project: defineCollection({
       type: 'page',
-      source: 'project/**/*.md',
+      source: localizedSource('project'),
       schema: baseSchema.extend({
         kind: z.literal('project').default('project'),
         role: z.string().optional(),
@@ -39,7 +52,7 @@ export default defineContentConfig({
 
     post: defineCollection({
       type: 'page',
-      source: 'post/**/*.md',
+      source: localizedSource('post'),
       schema: baseSchema.extend({
         kind: z.literal('post').default('post'),
       }),
@@ -47,7 +60,7 @@ export default defineContentConfig({
 
     note: defineCollection({
       type: 'page',
-      source: 'note/**/*.md',
+      source: localizedSource('note'),
       schema: baseSchema.extend({
         kind: z.literal('note').default('note'),
       }),
@@ -55,7 +68,7 @@ export default defineContentConfig({
 
     log: defineCollection({
       type: 'page',
-      source: 'log/**/*.md',
+      source: localizedSource('log'),
       schema: baseSchema.extend({
         kind: z.literal('log').default('log'),
         category: z.string().min(1),
