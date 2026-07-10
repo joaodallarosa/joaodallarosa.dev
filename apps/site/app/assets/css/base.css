@@ -5,92 +5,101 @@
  * per PROJECT.md §3 stays outside any Shadow Root, but "outside Shadow DOM"
  * doesn't mean "unstyled." Component-level styling still lives in
  * packages/design-system; this file is the page-chrome equivalent.
+ *
+ * Wrapped in `@layer base` (Tailwind's own layer, from tailwind.css's `@import
+ * 'tailwindcss'`) rather than left unlayered: an unlayered rule always beats a layered one
+ * regardless of specificity, which meant plain utility classes on h1/p/etc. could never win
+ * here and needed `!` everywhere. Staying in `base` still wins over Tailwind's Preflight
+ * (same layer, and this file loads after tailwind.css in nuxt.config.ts's css array, so it's
+ * later in source order) while correctly losing to `@layer utilities` like normal Tailwind.
  */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-html {
-  color-scheme: dark;
-  overflow-x: hidden;
-  /* Background lives on html, not body: html is the element browsers paint as the page
-     "canvas" (the very bottom paint layer) when it specifies one. A fixed, negative-z-index
-     element (e.g. FlowFieldBackground) paints above the canvas layer but below body's own
-     in-flow box background — so if body carried this background instead, its opaque paint
-     would sit above such an element and hide it entirely. */
-  background-color: var(--color-bg);
-  /* "Liquid Obsidian" atmosphere (Phase 4 addendum) — a bare near-black is inert; this reads
-     as depth without costing more than two static gradients. */
-  background-image:
-    radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, transparent 45%),
-    radial-gradient(circle at 85% 60%, color-mix(in srgb, var(--color-text) 3%, transparent) 0%, transparent 45%);
-  background-attachment: fixed;
-}
+  html {
+    color-scheme: dark;
+    overflow-x: hidden;
+    /* Background lives on html, not body: html is the element browsers paint as the page
+       "canvas" (the very bottom paint layer) when it specifies one. A fixed, negative-z-index
+       element (e.g. FlowFieldBackground) paints above the canvas layer but below body's own
+       in-flow box background — so if body carried this background instead, its opaque paint
+       would sit above such an element and hide it entirely. */
+    background-color: var(--color-bg);
+    /* "Liquid Obsidian" atmosphere (Phase 4 addendum) — a bare near-black is inert; this reads
+       as depth without costing more than two static gradients. */
+    background-image:
+      radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0%, transparent 45%),
+      radial-gradient(circle at 85% 60%, color-mix(in srgb, var(--color-text) 3%, transparent) 0%, transparent 45%);
+    background-attachment: fixed;
+  }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: var(--color-text);
-  font-family: var(--font-family-serif);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-reading);
-}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--color-text);
+    font-family: var(--font-family-serif);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-reading);
+  }
 
-h1,
-h2,
-h3,
-h4 {
-  margin: 0 0 var(--space-4);
-  font-family: var(--font-family-serif);
-  font-weight: var(--font-weight-display);
-  line-height: var(--line-height-headline);
-  color: var(--color-text);
-}
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-family-serif);
+    font-weight: var(--font-weight-display);
+    line-height: var(--line-height-headline);
+    color: var(--color-text);
+  }
 
-h1 {
-  font-size: var(--font-size-3xl);
-}
+  h1 {
+    font-size: var(--font-size-xl);
+  }
 
-h2 {
-  margin-top: var(--space-8);
-  font-size: var(--font-size-2xl);
-}
+  h2 {
+    margin-top: var(--space-8);
+    font-size: var(--font-size-lg);
+  }
 
-h3 {
-  font-size: var(--font-size-xl);
-}
+  h3 {
+    font-size: var(--font-size-base);
+  }
 
-p {
-  margin: 0 0 var(--space-4);
-  max-width: 68ch;
-  color: var(--color-text-muted);
-}
+  p {
+    margin: 0 0 var(--space-4);
+    max-width: 68ch;
+    color: var(--color-text-muted);
+  }
 
-a {
-  color: var(--color-accent);
-}
+  a {
+    color: var(--color-accent);
+  }
 
-a:hover {
-  color: var(--color-accent-hover);
-}
+  a:hover {
+    color: var(--color-accent-hover);
+  }
 
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 2px;
-}
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
 
-code,
-pre {
-  font-family: var(--font-family-mono);
-  font-size: 0.9em;
-}
+  code,
+  pre {
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+  }
 
-ul,
-ol {
-  margin: 0 0 var(--space-4);
-  padding-left: var(--space-5);
+  ul,
+  ol {
+    margin: 0 0 var(--space-4);
+    padding-left: var(--space-5);
+  }
 }

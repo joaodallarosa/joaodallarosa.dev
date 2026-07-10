@@ -1,6 +1,7 @@
 /*
- * FOUC guard: hide leaf custom elements until Lit has upgraded them.
- * Per docs/conventions.md — CSS-hidden `:not(:defined)`, not a blocking hydration step.
+ * FOUC guard: hide leaf custom elements until they've upgraded (customElements.define()
+ * has run for their tag). Per docs/conventions.md — CSS-hidden `:not(:defined)`, not a
+ * blocking hydration step.
  */
 ds-button:not(:defined),
 ds-tag:not(:defined),

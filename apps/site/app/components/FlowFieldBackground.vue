@@ -35,27 +35,27 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div
-    ref="container"
-    class="flow-field"
-    aria-hidden="true"
-  />
+  <!-- Teleported to body: this is a truly viewport-fixed ambient background, and .site-body
+       (default.vue) has `container-type: inline-size` for its own reasons, which would
+       otherwise make it this element's containing block instead of the real viewport. -->
+  <Teleport to="body">
+    <!-- bg-bg: fallback paint before the JS-generated paper-grain texture (see
+         flow-field-sketch.ts's applyPaperTexture) lands — resolves to the current
+         color-scheme's paper/bg token. -->
+    <div
+      ref="container"
+      class="pointer-events-none fixed inset-0 -z-1 overflow-hidden bg-bg bg-repeat"
+      aria-hidden="true"
+    />
+  </Teleport>
 </template>
 
 <style scoped>
-.flow-field {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  /* Fallback paint before the JS-generated paper-grain texture (see flow-field-sketch.ts's
-     applyPaperTexture) lands — resolves to the current color-scheme's paper/bg token. */
-  background-color: var(--color-bg);
-  background-repeat: repeat;
-}
-
-.flow-field :deep(canvas) {
+/* p5 injects a raw <canvas> into the container above at runtime — outside this template,
+   so it can't carry a Tailwind class. Canvases default to display: inline, which leaves a
+   few px of whitespace below; force block instead. Vue's scoped attribute still reaches this
+   element post-Teleport, so no wrapper class is needed to anchor the selector. */
+:deep(canvas) {
   display: block;
 }
 </style>

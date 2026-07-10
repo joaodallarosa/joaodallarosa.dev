@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/web-components'
-import { html } from 'lit'
 import './tag.js'
 
 interface TagArgs {
@@ -21,8 +20,8 @@ const meta: Meta<TagArgs> = {
     selected: false,
     label: 'nuxt',
   },
-  render: args => html`
-    <ds-tag ?selected=${args.selected}>${args.label}</ds-tag>
+  render: args => `
+    <ds-tag ${args.selected ? 'selected' : ''}>${args.label}</ds-tag>
   `,
 }
 
@@ -36,10 +35,10 @@ export const Selected: Story = {
 }
 
 export const Group: Story = {
-  render: () => html`
+  render: () => `
     <div style="display: flex; gap: var(--space-3);">
       <ds-tag>nuxt</ds-tag>
-      <ds-tag selected>lit</ds-tag>
+      <ds-tag selected>web components</ds-tag>
       <ds-tag>design-systems</ds-tag>
       <ds-tag>accessibility</ds-tag>
     </div>

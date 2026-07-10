@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { resolveEntryByPath } from '~/composables/useEntry'
 
+definePageMeta({ layout: 'content' })
+
 const route = useRoute()
 const requestUrl = useRequestURL()
 
@@ -35,14 +37,6 @@ useHead({
     />
     <EntryPostEntry
       v-else-if="entry.kind === 'post'"
-      :entry="entry"
-    />
-    <EntryNoteEntry
-      v-else-if="entry.kind === 'note'"
-      :entry="entry"
-    />
-    <EntryLogEntry
-      v-else-if="entry.kind === 'log'"
       :entry="entry"
     />
   </div>

@@ -57,27 +57,5 @@ export default defineContentConfig({
         kind: z.literal('post').default('post'),
       }),
     }),
-
-    note: defineCollection({
-      type: 'page',
-      source: localizedSource('note'),
-      schema: baseSchema.extend({
-        kind: z.literal('note').default('note'),
-      }),
-    }),
-
-    log: defineCollection({
-      type: 'page',
-      source: localizedSource('log'),
-      schema: baseSchema.extend({
-        kind: z.literal('log').default('log'),
-        category: z.string().min(1),
-        materials: z.array(z.object({
-          name: z.string(),
-          quantity: z.string().optional(),
-        })).optional(),
-        steps: z.array(z.string()).optional(),
-      }),
-    }),
   },
 })

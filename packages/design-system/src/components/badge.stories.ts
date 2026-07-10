@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components'
-import { html } from 'lit'
 import './badge.js'
 
 interface BadgeArgs {
-  kind?: 'project' | 'post' | 'note' | 'log'
+  kind?: 'project' | 'post'
   status?: 'draft' | 'published'
   label: string
 }
@@ -25,7 +24,7 @@ const meta: Meta<BadgeArgs> = {
   argTypes: {
     kind: {
       control: 'select',
-      options: [undefined, 'project', 'post', 'note', 'log'],
+      options: [undefined, 'project', 'post'],
     },
     status: {
       control: 'select',
@@ -40,11 +39,8 @@ const meta: Meta<BadgeArgs> = {
     kind: 'project',
     label: 'project',
   },
-  render: args => html`
-    <ds-badge
-      kind=${args.kind ?? ''}
-      status=${args.status ?? ''}
-    >
+  render: args => `
+    <ds-badge kind="${args.kind ?? ''}" status="${args.status ?? ''}">
       ${args.label}
     </ds-badge>
   `,
@@ -60,18 +56,16 @@ export const Status: Story = {
 }
 
 export const AllKinds: Story = {
-  render: () => html`
+  render: () => `
     <div style="display: flex; gap: var(--space-3);">
       <ds-badge kind="project">project</ds-badge>
       <ds-badge kind="post">post</ds-badge>
-      <ds-badge kind="note">note</ds-badge>
-      <ds-badge kind="log">log</ds-badge>
     </div>
   `,
 }
 
 export const AllStatuses: Story = {
-  render: () => html`
+  render: () => `
     <div style="display: flex; gap: var(--space-3);">
       <ds-badge status="draft">Draft</ds-badge>
       <ds-badge status="published">Published</ds-badge>

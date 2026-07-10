@@ -4,15 +4,14 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 # joaodallarosa.dev — design system
 
-Lit-based Web Components, consumed live by [joaodallarosa.dev](https://joaodallarosa.dev) — not
-mockups. Full rationale for every decision lives in `docs/design-prompt.md` (tokens) and
-`PROJECT.md` §3–4 (architecture, Developer Mode).
+Plain (Lit-free) Web Components, consumed live by [joaodallarosa.dev](https://joaodallarosa.dev) —
+not mockups. Full rationale for every decision lives in `docs/design-prompt.md` (tokens) and
+`PROJECT.md` §3 (architecture).
 
 - **Foundations** — color, typography, spacing, motion tokens, with live swatches.
-- **Components** — `ds-button`, `ds-tag`, `ds-badge`, `ds-card`, each with real Shadow DOM,
+- **Components** — `ds-button`, `ds-tag`, `ds-badge`, `ds-card`, each with real Shadow DOM and
   controls generated from the component's own TypeScript source (via
-  `@custom-elements-manifest/analyzer`), and the same Developer Mode x-ray skin shipped on the
-  live site — toggle it from the toolbar above.
+  `@custom-elements-manifest/analyzer`).
 
 Leaf/true components get real Shadow DOM; layout-ish/structural site chrome doesn't (see
 `PROJECT.md` §3 for why) — this reference only covers the former.

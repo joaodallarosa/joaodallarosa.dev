@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/web-components'
-import { html } from 'lit'
 import './button.js'
 
 interface ButtonArgs {
@@ -33,12 +32,8 @@ const meta: Meta<ButtonArgs> = {
     type: 'button',
     label: 'Publish',
   },
-  render: args => html`
-    <ds-button
-      variant=${args.variant}
-      ?disabled=${args.disabled}
-      type=${args.type}
-    >
+  render: args => `
+    <ds-button variant="${args.variant}" type="${args.type}" ${args.disabled ? 'disabled' : ''}>
       ${args.label}
     </ds-button>
   `,

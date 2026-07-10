@@ -1,15 +1,20 @@
 # design-system
 
-Lit-based Web Components, kept in-repo alongside `apps/site`. Portable across frameworks by design — see [PROJECT.md](../../PROJECT.md) §3.
+Plain (Lit-free) Web Components — vanilla `HTMLElement` subclasses with real Shadow DOM, kept
+in-repo alongside `apps/site`. Portable across frameworks by design — see
+[PROJECT.md](../../PROJECT.md) §3.
 
 ## Components
 
 - `ds-button` — primary/secondary variants, disabled state.
 - `ds-tag` — interactive filter chip, toggled via click (`ds-tag-toggle` event), `aria-pressed` reflects state.
-- `ds-badge` — non-interactive `kind` (project/post/note/log) or `status` (draft/published) indicator.
+- `ds-badge` — non-interactive `kind` (project/post) or `status` (draft/published) indicator.
 - `ds-card` — entry preview container (`cover`/`title`/`badge`/`footer` slots + default excerpt slot), optional `kind` for accent border.
 
-All four are leaf components with real Shadow DOM (see PROJECT.md §3's Shadow DOM scope convention) and carry their own Developer Mode x-ray skin (`packages/design-system/src/utils/xray.ts`) — no bolted-on overlay, activated globally by adding `data-dev-mode` to any ancestor element (typically `<html>`).
+All four are leaf components with real Shadow DOM (see PROJECT.md §3's Shadow DOM scope
+convention). Each is a small, dependency-free class: attributes are declared via
+`static observedAttributes`, and `attributeChangedCallback`/`connectedCallback` re-render the
+shadow root's dynamic bits — no reactive-property framework involved.
 
 ## Consuming this package
 

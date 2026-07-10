@@ -1,6 +1,15 @@
+import tailwindcss from '@tailwindcss/vite'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxt/eslint', '@nuxtjs/i18n', 'nuxt-studio', '@nuxtjs/sitemap', '@nuxt/image'],
+  // Hybrid rendering: this is a blog, so almost every route is static content that can be
+  // built once and served from the edge (SSG via routeRules prerendering). The one exception
+  // is Nuxt Studio (`/_studio`, plus its own `/api/**` endpoints for auth and saving content) —
+  // that needs a live Node server to run against, so it stays on-demand SSR. `ssr: true` is
+  // kept at the top level (rather than switching to `nuxt generate`/`ssr: false`) specifically
+  // so that server still exists in production for Studio to run on.
+  ssr: true,
   devtools: { enabled: true },
   app: {
     head: {
@@ -30,6 +39,9 @@ export default defineNuxtConfig({
     '@fontsource/jetbrains-mono/500.css',
     'design-system/tokens.css',
     'design-system/hydration.css',
+    // Tailwind utilities, theme-mapped onto the tokens above (see the file's own comment) —
+    // loaded before fonts.css/base.css so hand-written rules there still win over Preflight.
+    '~/assets/css/tailwind.css',
     // Custom licensed font-face (Oldenorth) — not a @fontsource package; see fonts.css.
     '~/assets/css/fonts.css',
     '~/assets/css/base.css',
@@ -42,7 +54,15 @@ export default defineNuxtConfig({
   site: {
     url: 'https://joaodallarosa.dev',
   },
+  routeRules: {
+    '/**': { prerender: true },
+    '/_studio/**': { prerender: false },
+    '/api/**': { prerender: false },
+  },
   compatibilityDate: '2025-07-15',
+  vite: {
+    plugins: [tailwindcss()],
+  },
   typescript: {
     strict: true,
   },
@@ -55,6 +75,7 @@ export default defineNuxtConfig({
     baseUrl: 'https://joaodallarosa.dev',
     strategy: 'prefix_except_default',
     defaultLocale: 'en',
+    detectBrowserLanguage: false,
     locales: [
       { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
       { code: 'fr', language: 'fr-FR', name: 'Français', file: 'fr.json' },

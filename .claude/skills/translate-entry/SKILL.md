@@ -1,6 +1,6 @@
 ---
 name: translate-entry
-description: Translate a published English content entry into FR and/or PT-BR draft entries, following this repo's locale-aware content routing convention. Use when Joao asks to translate a project/post/note/log entry.
+description: Translate a published English content entry into FR and/or PT-BR draft entries, following this repo's locale-aware content routing convention. Use when Joao asks to translate a project/post entry.
 ---
 
 # Translate an entry
@@ -11,7 +11,7 @@ Implements PROJECT.md §5's translation workflow: `input: entry → output: draf
 
 `/translate-entry <collection> <filename> [locale...]`
 
-- `<collection>`: one of `project`, `post`, `note`, `log`.
+- `<collection>`: one of `project`, `post`.
 - `<filename>`: the source file's base name without extension, e.g. `seed` for `apps/site/content/post/seed.md`.
 - `[locale...]`: optional, one or both of `fr`, `pt-BR`. Defaults to both if omitted.
 
@@ -25,8 +25,8 @@ Translated files live at `apps/site/content/<locale>/<collection>/<filename>.md`
 2. For each target locale, check whether `apps/site/content/<locale>/<collection>/<filename>.md` already exists.
    - If it exists: **do not overwrite it.** Report that it already exists and stop for that locale — it may hold a human's in-progress edits.
 3. Otherwise, write the new file with frontmatter + body derived from the source:
-   - **Pass through unchanged** (do not translate): `date`, `updatedAt`, `tags`, `cover.src`, `links[].href`, `gallery[].src`, the kind literal, `category`, `materials[].quantity`, the `steps` array's length/order (only its text is translated — see below), `slug`.
-   - **Translate** into the target locale, preserving meaning and tone (not literal word-for-word): `title`, `description`, `cover.alt`, `role`, `gallery[].alt`, `gallery[].caption`, `materials[].name`, `links[].label`, each `steps[]` string, and the markdown body — keep markdown structure, headings, code fences, and links (href) exactly as in the source; only translate the surrounding prose/link text.
+   - **Pass through unchanged** (do not translate): `date`, `updatedAt`, `tags`, `cover.src`, `links[].href`, `gallery[].src`, the kind literal, `slug`.
+   - **Translate** into the target locale, preserving meaning and tone (not literal word-for-word): `title`, `description`, `cover.alt`, `role`, `gallery[].alt`, `gallery[].caption`, `links[].label`, and the markdown body — keep markdown structure, headings, code fences, and links (href) exactly as in the source; only translate the surrounding prose/link text.
    - **Always set** `status: draft` regardless of the source entry's status, and `locale: <target>`.
 4. After writing, report which files were created and which were skipped (already existed), and remind the user: these are drafts. Review each one, then manually flip `status` to `published` (in Studio or directly in the file) when ready — never auto-publish a translation.
 

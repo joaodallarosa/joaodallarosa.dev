@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+/* LogoCarousel.vue's marquee — a real @keyframes registered here (Tailwind can't generate
+   these from a utility class) and exposed as an --animate-* theme entry so the component
+   can reach it via the ordinary `animate-logo-scroll` utility. */
+@keyframes logo-carousel-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/*
+ * Maps this project's own design tokens (design-system/tokens.css, loaded earlier in
+ * nuxt.config.ts's css array) onto Tailwind's theme namespaces, so utilities like bg-accent,
+ * text-neutral-400, p-6, font-serif, and text-xl resolve to the *same* CSS custom properties
+ * the web components and hand-written CSS already use — one token source of truth, not two
+ * parallel scales.
+ *
+ * `inline` (not plain `@theme`) is required: several of these variables are redefined under
+ * :root[data-color-scheme='light'] in tokens.css for the light theme. Plain `@theme` would bake
+ * the dark-mode value into each utility at build time; `inline` keeps the var(...) reference
+ * live in the generated utility, so it re-resolves against the current cascade instead.
+ */
+@theme inline {
+  /* Neutral scale — overrides Tailwind's own default "neutral" gray with our warm-tinted one */
+  --color-neutral-950: var(--color-neutral-950);
+  --color-neutral-900: var(--color-neutral-900);
+  --color-neutral-800: var(--color-neutral-800);
+  --color-neutral-700: var(--color-neutral-700);
+  --color-neutral-600: var(--color-neutral-600);
+  --color-neutral-500: var(--color-neutral-500);
+  --color-neutral-400: var(--color-neutral-400);
+  --color-neutral-300: var(--color-neutral-300);
+  --color-neutral-200: var(--color-neutral-200);
+  --color-neutral-100: var(--color-neutral-100);
+  --color-neutral-50: var(--color-neutral-50);
+
+  /* Accent scale */
+  --color-accent-300: var(--color-accent-300);
+  --color-accent-400: var(--color-accent-400);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-600: var(--color-accent-600);
+  --color-accent-700: var(--color-accent-700);
+
+  /* Kind badges */
+  --color-kind-project: var(--color-kind-project);
+  --color-kind-post: var(--color-kind-post);
+
+  /* Surface / text / interactive roles — these are the ones that flip under
+     :root[data-color-scheme='light'], which is exactly why `inline` matters here. */
+  --color-bg: var(--color-bg);
+  --color-bg-raised: var(--color-bg-raised);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-border: var(--color-border);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-focus-ring: var(--color-focus-ring);
+  --color-disabled-bg: var(--color-disabled-bg);
+  --color-disabled-text: var(--color-disabled-text);
+  --color-status-draft: var(--color-status-draft);
+  --color-status-published: var(--color-status-published);
+
+  /* Liquid glass surfaces (see tokens.css) */
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --color-glass-border-accent: var(--glass-border-accent);
+  /* --blur-xl already happens to equal 24px in Tailwind's default scale, but overriding it
+     keeps backdrop-blur-xl sourced from the token rather than coinciding by accident. */
+  --blur-xl: var(--glass-blur);
+
+  /* Type */
+  --font-serif: var(--font-family-serif);
+  --font-mono: var(--font-family-mono);
+  --font-display-gothic: var(--font-family-display-gothic);
+
+  --text-base: var(--font-size-base);
+  --text-lg: var(--font-size-lg);
+  --text-xl: var(--font-size-xl);
+
+  --leading-reading: var(--line-height-reading);
+  --leading-ui: var(--line-height-ui);
+  --leading-headline: var(--line-height-headline);
+
+  /* Font weight — our semantic body/subhead/display steps happen to share Tailwind's
+     normal/medium/semibold numeric values (400/500/600), so those utility names double as
+     this scale rather than needing bespoke ones. */
+  --font-weight-normal: var(--font-weight-body);
+  --font-weight-medium: var(--font-weight-subhead);
+  --font-weight-semibold: var(--font-weight-display);
+
+  /* Spacing — same 4px-based scale as the rest of the site (see tokens.css). Adding named
+     keys here extends Tailwind's default calc()-based numeric scale rather than replacing it
+     (space-1..4 already coincide with Tailwind's defaults; space-5..10 don't, which is exactly
+     why these need to be explicit). */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+  --spacing-8: var(--space-8);
+  --spacing-9: var(--space-9);
+  --spacing-10: var(--space-10);
+
+  --container-content: var(--content-max-width);
+
+  --ease-mechanical: var(--motion-easing-mechanical);
+  --ease-fluid: var(--motion-easing-fluid);
+
+  --animate-logo-scroll: logo-carousel-scroll 46s linear infinite;
+}

@@ -1,9 +1,8 @@
 {
   "nav": {
-    "projects": "Projects",
+    "home": "Home",
     "posts": "Posts",
-    "notes": "Notes",
-    "log": "Log"
+    "projects": "Projects"
   },
   "language": {
     "label": "Language"
@@ -13,17 +12,12 @@
     "light": "Light",
     "dark": "Dark"
   },
-  "devMode": {
-    "label": "Developer Mode",
-    "on": "On",
-    "off": "Off"
-  },
   "a11y": {
     "skipToContent": "Skip to content"
   },
   "cookieBanner": {
     "label": "Cookie notice",
-    "text": "This site uses local storage only, to remember your theme and developer-mode preferences. No tracking cookies are set.",
+    "text": "This site uses local storage only, to remember your theme preference. No tracking cookies are set.",
     "dismiss": "Got it"
   }
 }

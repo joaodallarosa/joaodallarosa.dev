@@ -1,9 +1,8 @@
 {
   "nav": {
-    "projects": "Projetos",
+    "home": "Início",
     "posts": "Posts",
-    "notes": "Notas",
-    "log": "Diário"
+    "projects": "Projetos"
   },
   "language": {
     "label": "Idioma"
@@ -13,17 +12,12 @@
     "light": "Claro",
     "dark": "Escuro"
   },
-  "devMode": {
-    "label": "Modo desenvolvedor",
-    "on": "Ativado",
-    "off": "Desativado"
-  },
   "a11y": {
     "skipToContent": "Pular para o conteúdo"
   },
   "cookieBanner": {
     "label": "Aviso de cookies",
-    "text": "Este site usa apenas armazenamento local, para lembrar suas preferências de tema e modo desenvolvedor. Nenhum cookie de rastreamento é definido.",
+    "text": "Este site usa apenas armazenamento local, para lembrar sua preferência de tema. Nenhum cookie de rastreamento é definido.",
     "dismiss": "Entendi"
   }
 }

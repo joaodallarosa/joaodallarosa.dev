@@ -1,5 +1,5 @@
 <template>
-  <SiteShell>
+  <SiteShell contained>
     <slot />
   </SiteShell>
 </template>

@@ -17,69 +17,22 @@ function dismiss() {
 </script>
 
 <template>
+  <!-- z-[2]: low value deliberately (see default.vue's .site-rail comment) — Nuxt Studio's
+       editing UI shares this page's root stacking context, so this only needs to sit above
+       our own content, not above Studio's own dialogs/overlays, which use much higher tiers. -->
   <div
     v-if="!dismissed"
-    class="cookie-banner"
+    class="fixed inset-x-4 bottom-4 z-2 mx-auto flex max-w-lg flex-wrap items-center justify-between gap-4 rounded-xs border border-border bg-bg-raised px-5 py-4 font-mono text-base text-text"
     role="region"
     :aria-label="t('cookieBanner.label')"
   >
-    <p>{{ t('cookieBanner.text') }}</p>
+    <p class="m-0">{{ t('cookieBanner.text') }}</p>
     <button
       type="button"
-      class="cookie-banner-dismiss"
+      class="cursor-pointer rounded-xs border-none bg-accent px-4 py-2 font-mono text-base font-medium text-bg transition-colors duration-(--motion-duration-base) ease-mechanical hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
       @click="dismiss"
     >
       {{ t('cookieBanner.dismiss') }}
     </button>
   </div>
 </template>
-
-<style scoped>
-.cookie-banner {
-  position: fixed;
-  z-index: 90;
-  right: var(--space-4);
-  bottom: var(--space-4);
-  left: var(--space-4);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  max-width: 32rem;
-  margin: 0 auto;
-  padding: var(--space-4) var(--space-5);
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  color: var(--color-text);
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border);
-  border-radius: 2px;
-}
-
-.cookie-banner p {
-  margin: 0;
-}
-
-.cookie-banner-dismiss {
-  padding: var(--space-2) var(--space-4);
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-mono-em);
-  color: var(--color-bg);
-  background: var(--color-accent);
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: background-color var(--motion-duration-base) var(--motion-easing-mechanical);
-}
-
-.cookie-banner-dismiss:hover {
-  background: var(--color-accent-hover);
-}
-
-.cookie-banner-dismiss:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 2px;
-}
-</style>

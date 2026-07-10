@@ -23,12 +23,9 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "analyze": "cem analyze --litelement --globs \"src/components/**/*.ts\" --outdir .storybook",
+    "analyze": "cem analyze --globs \"src/components/**/*.ts\" --outdir .storybook",
     "storybook": "pnpm run analyze && storybook dev -p 6006",
     "build-storybook": "pnpm run analyze && storybook build"
-  },
-  "dependencies": {
-    "lit": "^3.3.3"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",

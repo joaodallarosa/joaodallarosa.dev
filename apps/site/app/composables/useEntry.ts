@@ -1,4 +1,4 @@
-const ENTRY_COLLECTIONS = ['project', 'post', 'note', 'log'] as const
+const ENTRY_COLLECTIONS = ['project', 'post'] as const
 
 export type EntryCollection = (typeof ENTRY_COLLECTIONS)[number]
 
