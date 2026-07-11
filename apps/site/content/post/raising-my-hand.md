@@ -1,58 +1,47 @@
 ---
 title: Raising my hand
-description: Why I decided to start writting here
-cover:
-  src: /images/mock/post-writing-online.svg
-  alt: Placeholder mock cover for the writing-in-public post.
-date: 2026-05-10
+date: 2026-07-11
+description: and why I decided to write here
 kind: post
 locale: en
 seo:
   title: Why I'm writing this in public
   description: The short reasoning behind publishing project write-ups and working notes as they happen, rather than only after the fact.
 slug: raising-my-hand
-status: draft
+status: published
 tags:
   - meta
 ---
 
-I'm about to go into the meeting room for a performance review.
+> *"I listen more than I speak."*
 
-The way the meeting goes it that we go together through some questions I pre-filled beforehand.
+I reply to my coworker's demand to name a quality.
 
-Then my manager comes up to one of my pre-written points of my strenghts:
+A quick laugh slip out.
 
-> *"I listen more than I speak".*
+Not in a mocking way, more like an uncle would.
 
-My manager laughs directly, not in a mocking way. But in a friendly and soothing way (even though it was no my intent to be funny).
+I look at him confused, listening to people is an important skill, one that is not as easy it may appear.
 
-I honestly think that one can learn a lot by just listening to people and that is a nice skill to have.
+He looks me in the eye smiling and says:
 
-He looks me in the eye and say:
-
-> "Well, yes... That is important. But let me give you some advice.
+> " Well, yes... That is important.
 >
-> \--- Unknown node: hardBreak ---
+> But let me give you some advice.
 >
-> In my carrier I already saw people that maybe shouldn't get the promotion that got the promotion mostly because the speak.
->
-> \--- Unknown node: hardBreak ---
->
-> If you don't speak, people won't know who you are".
+> **If you don't speak, people won't know who you are**. "
 
 ---
 
-This was several years ago.
+That was several years ago.
 
-I remembered this story showing some personal projects to some colleagues after lunch.
+I'm writing this after showing some personal projects to colleagues at work and it got me thinking about starting to write and share what I'm doing.
 
-Showing things I make make me feel excited because I enjoy sharing things that are in a way an expression of myself and specially when it is useful (even if it's just to me). I felt happy because I'm always excited to show things that I've built.
+Showing things I've built makes me excited, as if I am sharing the feeling I felt while doing that thing.
 
-I came to the realization:
+Some people get it, others don't, that's ok.
 
-> If I don't show the things I do, tell my story, nobody will.
-
-So I decided to create this website and starting finally sharing things: Old stuff, new stuff, ideas and projects.
+> But if I don't share what I can do, tell my story, then who will ?
 
 So here I am, raising my hand to speak...
 

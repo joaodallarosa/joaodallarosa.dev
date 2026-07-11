@@ -23,10 +23,19 @@ const baseSchema = z.object({
   status: z.enum(['draft', 'published']).default('draft'),
   locale: z.enum(['en', 'fr', 'pt-BR']).default('en'),
   tags: z.array(z.string()).default([]),
+  // Studio's image picker clears `src` to "" rather than removing the whole
+  // block when a cover is unset, so treat an empty src as "no cover".
   cover: z.object({
-    src: z.string().min(1),
-    alt: z.string().min(1),
-  }).optional(),
+    src: z.string(),
+    alt: z.string(),
+  }).optional().transform((cover, ctx) => {
+    if (!cover?.src) return undefined
+    if (!cover.alt) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'cover.alt is required when cover.src is set' })
+      return z.NEVER
+    }
+    return cover
+  }),
 })
 
 export default defineContentConfig({

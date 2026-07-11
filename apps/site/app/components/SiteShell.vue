@@ -22,7 +22,18 @@ const isActive = (to: string) => route.path === localePath(to)
 </script>
 
 <template>
-  <div class="flex flex-col sm:flex-row min-h-screen">
+  <!--
+    `isolate`: contains the z-3/z-1/z-2 tiers below (skip-link, nav rail, cookie banner) inside
+    their own stacking context. Without it those are just bare positive z-index values, which
+    unconditionally out-rank *any* sibling sitting at the default z-index:auto — including
+    Nuxt Studio's own editing UI, which mounts as a sibling on document.body and apparently
+    doesn't set an explicit z-index on its root (only on elements internal to it). That let our
+    z-1 nav rail render on top of Studio's media-picker modal (see the Select Image dialog bug,
+    2026-07-11). `isolate` keeps our internal ordering working while making this whole subtree
+    behave like an ordinary unpositioned box from Studio's point of view, so it can never win
+    against a positioned Studio element regardless of either side's numeric z-index.
+  -->
+  <div class="isolate flex flex-col sm:flex-row min-h-screen">
     <a
       href="#main-content"
       class="absolute z-3 top-2 left-2 py-2 px-4 font-mono text-base text-bg bg-accent rounded-xs translate-y-[-200%] transition-transform duration-(--motion-duration-base) ease-mechanical focus:translate-y-0"
@@ -36,11 +47,8 @@ const isActive = (to: string) => route.path === localePath(to)
       interface" structural read; collapses to a horizontal bar on narrow viewports rather
       than shrinking the rail in place, since rotated text at rail-bar width isn't legible.
 
-      z-1/z-3 (skip-link above) are deliberately low, not "above the main content" headroom:
-      Nuxt Studio's editing UI mounts as a sibling <nuxt-studio> element directly on
-      document.body, sharing this same root stacking context — its own dialogs/overlays use
-      z-index tiers up to 1000, so this chrome only needs to beat our own page content, not
-      compete with Studio's.
+      z-1 only has to beat the skip-link's z-3 and our own page content — see the `isolate`
+      comment above for why it's safe from leaking above Studio's UI.
     -->
     <aside
       class="sticky sm:fixed z-1 top-0 left-0 flex flex-row sm:flex-col flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 sm:gap-y-0 w-full sm:w-9 h-auto sm:h-screen py-3 sm:pt-5 sm:pb-7 px-4 sm:px-0 overflow-y-auto bg-bg border-b sm:border-b-0 sm:border-r border-border"

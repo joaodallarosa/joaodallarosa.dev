@@ -13,7 +13,9 @@ const gallery = computed(() => props.entry.gallery ?? [])
     <p v-if="entry.status !== 'published'">
       Draft
     </p>
-    <h1>{{ entry.title }}</h1>
+    <h1 class="text-4xl leading-tight sm:text-5xl">
+      {{ entry.title }}
+    </h1>
     <p>{{ entry.description }}</p>
     <NuxtImg
       v-if="entry.cover"

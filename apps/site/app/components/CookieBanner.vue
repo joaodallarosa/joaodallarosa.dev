@@ -17,9 +17,9 @@ function dismiss() {
 </script>
 
 <template>
-  <!-- z-[2]: low value deliberately (see default.vue's .site-rail comment) — Nuxt Studio's
-       editing UI shares this page's root stacking context, so this only needs to sit above
-       our own content, not above Studio's own dialogs/overlays, which use much higher tiers. -->
+  <!-- z-2: only needs to beat our own page content (the nav rail's z-1, our own content), not
+       Nuxt Studio's UI — SiteShell's root `isolate` contains this tier so it can't leak out and
+       out-rank Studio's editing overlays. See SiteShell.vue's isolate comment for why. -->
   <div
     v-if="!dismissed"
     class="fixed inset-x-4 bottom-4 z-2 mx-auto flex max-w-lg flex-wrap items-center justify-between gap-4 rounded-xs border border-border bg-bg-raised px-5 py-4 font-mono text-base text-text"
