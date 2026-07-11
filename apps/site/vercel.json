@@ -1,3 +1,10 @@
 {
-  "buildCommand": "cd ../.. && pnpm run build"
+  "buildCommand": "cd ../.. && pnpm run build",
+  "redirects": [
+    {
+      "source": "/storybook",
+      "destination": "/storybook/",
+      "permanent": true
+    }
+  ]
 }

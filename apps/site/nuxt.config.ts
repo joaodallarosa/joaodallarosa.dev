@@ -58,11 +58,6 @@ export default defineNuxtConfig({
     '/**': { prerender: true },
     '/_studio/**': { prerender: false },
     '/api/**': { prerender: false },
-    // /storybook is a static build in public/ (see scripts/copy-storybook.mjs), not a Nuxt
-    // route. Without the trailing slash, the browser resolves the Storybook shell's relative
-    // asset paths (./sb-manager/runtime.js etc.) against site root instead of /storybook/,
-    // 404ing every asset and leaving the page blank — so force the canonical form.
-    '/storybook': { redirect: { to: '/storybook/', statusCode: 308 } },
   },
   compatibilityDate: '2025-07-15',
   vite: {
