@@ -17,7 +17,7 @@ tags:
 
 I reply to my coworker's demand to name a quality.
 
-A quick laugh slip out.
+A quick laugh slips out.
 
 Not in a mocking way, more like an uncle would.
 
