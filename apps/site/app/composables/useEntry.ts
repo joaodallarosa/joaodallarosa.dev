@@ -16,7 +16,7 @@ export async function resolveEntryByPath(path: string) {
     // are suppressed instead, which tolerate either outcome.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const entry = await queryCollection(collection).path(path).first()
+    const entry = await queryCollection(collection).path(path).where('status', '=', 'published').first()
     if (entry) {
       return entry
     }
