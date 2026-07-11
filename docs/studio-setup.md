@@ -22,15 +22,17 @@ Auth (who can log in to `/_studio`) and the Git provider (where commits land) ar
 Copy `apps/site/.env.example` to `apps/site/.env` (gitignored) and fill in:
 
 ```
-NUXT_STUDIO_AUTH_GOOGLE_CLIENT_ID=<from step 1>
-NUXT_STUDIO_AUTH_GOOGLE_CLIENT_SECRET=<from step 1>
-NUXT_STUDIO_AUTH_GOOGLE_MODERATORS=<your Google account email>
-NUXT_STUDIO_GIT_GITHUB_TOKEN=<from step 2>
+STUDIO_GOOGLE_CLIENT_ID=<from step 1>
+STUDIO_GOOGLE_CLIENT_SECRET=<from step 1>
+STUDIO_GOOGLE_MODERATORS=<your Google account email>
+STUDIO_GITHUB_TOKEN=<from step 2>
 ```
 
-`NUXT_STUDIO_AUTH_GOOGLE_MODERATORS` is a comma-separated allowlist of emails permitted to edit — without it, anyone with a Google account could log in.
+These are flat, unprefixed names read directly via `process.env` inside the `nuxt-studio` module (see its `dist/module/module.mjs`) — they are **not** mapped through Nuxt's `NUXT_`-prefixed runtimeConfig env convention, so don't add a `NUXT_` prefix.
 
-Repeat the same four variables in the Vercel project's environment variables once the site is deployed there, using the production redirect URI from step 1.
+`STUDIO_GOOGLE_MODERATORS` is a comma-separated allowlist of emails permitted to edit — without it, anyone with a Google account could log in.
+
+Repeat the same four variables (with these exact flat names) in the Vercel project's environment variables once the site is deployed there, using the production redirect URI from step 1.
 
 ## 4. Deployment constraint
 
