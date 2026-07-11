@@ -77,7 +77,7 @@ const isActive = (to: string) => route.path === localePath(to)
              Router and 404 instead of letting the browser fetch the static file. Label is
              hardcoded (not i18n'd) since "Design System" reads the same in every locale. -->
         <a
-          href="/storybook"
+          href="/storybook/"
           class="[writing-mode:horizontal-tb] sm:[writing-mode:vertical-rl] sm:rotate-180 whitespace-nowrap font-mono text-base uppercase tracking-[0.15em] text-text-muted transition-colors duration-(--motion-duration-base) ease-mechanical hover:text-accent"
         >
           Design System
