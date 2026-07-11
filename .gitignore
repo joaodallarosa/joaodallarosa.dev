@@ -3,6 +3,7 @@ node_modules
 # Nuxt build/dev output (apps/site)
 .nuxt
 .output
+.vercel
 .nitro
 .cache
 .data

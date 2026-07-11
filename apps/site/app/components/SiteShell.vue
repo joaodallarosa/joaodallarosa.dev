@@ -51,31 +51,192 @@ const isActive = (to: string) => route.path === localePath(to)
       comment above for why it's safe from leaking above Studio's UI.
     -->
     <aside
-      class="sticky sm:fixed z-1 top-0 left-0 flex flex-row sm:flex-col flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 sm:gap-y-0 w-full sm:w-9 h-auto sm:h-screen py-3 sm:pt-5 sm:pb-7 px-4 sm:px-0 overflow-y-auto bg-bg border-b sm:border-b-0 sm:border-r border-border"
+      class="sticky sm:fixed z-1 top-0 left-0 flex flex-col flex-nowrap items-stretch sm:items-center justify-start sm:justify-between gap-y-3 sm:gap-y-0 w-full sm:w-9 h-auto sm:h-screen py-3 sm:pt-5 sm:pb-7 px-4 sm:px-0 overflow-y-auto bg-bg border-b sm:border-b-0 sm:border-r border-border"
     >
-      <NuxtLink
-        :to="localePath('/')"
-        class="order-1 sm:order-0 [writing-mode:horizontal-tb] sm:[writing-mode:vertical-rl] sm:rotate-180 shrink min-w-0 sm:min-w-auto max-w-[60%] sm:max-w-none overflow-hidden sm:overflow-visible text-ellipsis sm:text-clip font-mono text-base font-medium tracking-[0.08em] text-text whitespace-nowrap"
-      >
-        joaodallarosa.dev
-      </NuxtLink>
+      <!--
+        Mobile: `sm:contents` dissolves this wrapper at the desktop breakpoint so the brand
+        link and the utility cluster become direct flex children of the rail again (restoring
+        the original top/middle/bottom rail order via the sm:order-* classes below) — on
+        mobile it's a real row: brand left, locale + theme toggle right.
+      -->
+      <div class="flex w-full items-center justify-between gap-4 sm:contents">
+        <NuxtLink
+          :to="localePath('/')"
+          class="sm:order-1 [writing-mode:horizontal-tb] sm:[writing-mode:vertical-rl] sm:rotate-180 shrink min-w-0 sm:min-w-auto max-w-[60%] sm:max-w-none overflow-hidden sm:overflow-visible text-ellipsis sm:text-clip font-mono text-base font-medium tracking-[0.08em] text-text whitespace-nowrap"
+        >
+          joaodallarosa.dev
+        </NuxtLink>
 
+        <div class="sm:order-3 flex flex-row sm:flex-col items-center shrink-0 gap-4 sm:gap-5">
+          <nav
+            :aria-label="t('language.label')"
+            class="flex flex-row sm:flex-col items-center gap-2 font-mono text-base tracking-widest"
+          >
+            <NuxtLink
+              v-for="l in availableLocales"
+              :key="l.code"
+              :to="switchLocalePath(l.code)"
+              class="text-text-muted hover:text-accent"
+            >
+              {{ (l.code.split('-')[0] ?? l.code).toUpperCase() }}
+            </NuxtLink>
+          </nav>
+
+          <!--
+            ClientOnly: the persisted preference lives in localStorage, unavailable during SSR —
+            rendering a guessed state eagerly causes a hydration text mismatch (see
+            colorscheme.client.ts). The fallback keeps layout stable instead of an empty slot.
+
+            Two renders share the same scheme/toggleScheme state and the same sliding-pill
+            design (sun/moon glyph, clearer at a glance than a tiny dot): a horizontal switch
+            on mobile's horizontal bar, and a vertical switch (same pill, rotated 90deg via
+            swapped h/w and translate-y instead of translate-x) on desktop's vertical rail —
+            a shared shape rendered twice rather than one element reflowed with responsive
+            classes, since the slide axis itself changes, not just size/position.
+          -->
+          <ClientOnly>
+            <button
+              type="button"
+              class="relative hidden sm:flex h-13.5 w-7.5 shrink-0 items-center rounded-full border border-border bg-bg-raised hover:border-accent"
+              :aria-pressed="scheme === 'light'"
+              :aria-label="`${t('colorScheme.label')}: ${scheme === 'light' ? t('colorScheme.light') : t('colorScheme.dark')}`"
+              @click="toggleScheme"
+            >
+              <span
+                class="absolute top-0.75 left-0.75 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-accent text-bg transition-transform duration-(--motion-duration-base) ease-mechanical"
+                :class="scheme === 'dark' ? 'translate-y-[24px]' : 'translate-y-0'"
+              >
+                <svg
+                  v-if="scheme === 'light'"
+                  viewBox="0 0 24 24"
+                  class="h-3.5 w-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="4"
+                  />
+                  <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+                </svg>
+                <svg
+                  v-else
+                  viewBox="0 0 24 24"
+                  class="h-3.5 w-3.5"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M20 14.5a8.5 8.5 0 1 1-10.5-10.4A8.5 8.5 0 0 0 20 14.5Z" />
+                </svg>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              class="relative flex sm:hidden h-7.5 w-13.5 shrink-0 items-center rounded-full border border-border bg-bg-raised"
+              :aria-pressed="scheme === 'light'"
+              :aria-label="`${t('colorScheme.label')}: ${scheme === 'light' ? t('colorScheme.light') : t('colorScheme.dark')}`"
+              @click="toggleScheme"
+            >
+              <span
+                class="absolute top-0.75 left-0.75 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-accent text-bg transition-transform duration-(--motion-duration-base) ease-mechanical"
+                :class="scheme === 'dark' ? 'translate-x-[24px]' : 'translate-x-0'"
+              >
+                <svg
+                  v-if="scheme === 'light'"
+                  viewBox="0 0 24 24"
+                  class="h-3.5 w-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="4"
+                  />
+                  <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+                </svg>
+                <svg
+                  v-else
+                  viewBox="0 0 24 24"
+                  class="h-3.5 w-3.5"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M20 14.5a8.5 8.5 0 1 1-10.5-10.4A8.5 8.5 0 0 0 20 14.5Z" />
+                </svg>
+              </span>
+            </button>
+
+            <template #fallback>
+              <button
+                type="button"
+                class="relative hidden sm:flex h-13.5 w-7.5 shrink-0 items-center rounded-full border border-border bg-bg-raised"
+                disabled
+                :aria-label="`${t('colorScheme.label')}: ${t('colorScheme.dark')}`"
+              >
+                <span class="absolute bottom-0.75 left-0.75 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-disabled-text text-bg">
+                  <svg
+                    viewBox="0 0 24 24"
+                    class="h-3.5 w-3.5"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 14.5a8.5 8.5 0 1 1-10.5-10.4A8.5 8.5 0 0 0 20 14.5Z" />
+                  </svg>
+                </span>
+              </button>
+              <button
+                type="button"
+                class="relative flex sm:hidden h-7.5 w-13.5 shrink-0 items-center rounded-full border border-border bg-bg-raised"
+                disabled
+                :aria-label="`${t('colorScheme.label')}: ${t('colorScheme.dark')}`"
+              >
+                <span class="absolute top-0.75 left-0.75 flex h-[24px] w-[24px] items-center justify-center rounded-full bg-disabled-text text-bg">
+                  <svg
+                    viewBox="0 0 24 24"
+                    class="h-3.5 w-3.5"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 14.5a8.5 8.5 0 1 1-10.5-10.4A8.5 8.5 0 0 0 20 14.5Z" />
+                  </svg>
+                </span>
+              </button>
+            </template>
+          </ClientOnly>
+        </div>
+      </div>
+
+      <!--
+        Mobile: horizontal scroll-snap slider (a modern mobile-nav pattern — scrollable pill
+        tabs, e.g. Airbnb's category bar) instead of the old wrap-to-a-second-line list, which
+        is what clipped the theme toggle at narrow widths. Desktop keeps the original vertical
+        text-link column (sm:flex-col, no scroll/snap/mask, no pill background).
+      -->
       <nav
         aria-label="Main"
-        class="order-3 sm:order-0 basis-full sm:basis-auto flex flex-row sm:flex-col flex-wrap sm:flex-nowrap items-center justify-start gap-x-4 gap-y-2 sm:gap-6"
+        class="sm:order-2 flex w-full sm:w-auto flex-row sm:flex-col flex-nowrap items-center gap-x-2 sm:gap-6 overflow-x-auto sm:overflow-visible snap-x snap-mandatory sm:snap-none [-webkit-overflow-scrolling:touch] scrollbar-none mask-[linear-gradient(90deg,transparent,black_4%,black_96%,transparent)] sm:mask-none [-webkit-mask-image:linear-gradient(90deg,transparent,black_4%,black_96%,transparent)] sm:[-webkit-mask-image:none]"
       >
         <NuxtLink
           v-for="item in navItems"
           :key="item.to"
           :to="localePath(item.to)"
-          class="relative [writing-mode:horizontal-tb] sm:[writing-mode:vertical-rl] sm:rotate-180 whitespace-nowrap font-mono text-base uppercase tracking-[0.15em] transition-colors duration-(--motion-duration-base) ease-mechanical hover:text-accent"
-          :class="isActive(item.to) ? 'text-accent font-medium' : 'text-text-muted'"
+          class="relative shrink-0 snap-start rounded-full px-4 py-2 sm:px-0 sm:py-0 [writing-mode:horizontal-tb] sm:[writing-mode:vertical-rl] sm:rotate-180 whitespace-nowrap font-mono text-base uppercase tracking-[0.15em] transition-colors duration-(--motion-duration-base) ease-mechanical hover:text-accent"
+          :class="isActive(item.to) ? 'bg-accent text-bg sm:bg-transparent sm:text-accent font-medium' : 'bg-bg-raised sm:bg-transparent text-text-muted'"
           :aria-current="isActive(item.to) ? 'page' : undefined"
         >
           {{ t(item.labelKey) }}
           <span
             v-if="isActive(item.to)"
-            class="absolute left-1/2 bottom-[-0.6em] sm:top-[-0.75em] sm:bottom-auto h-1 w-1 -translate-x-1/2 rounded-full bg-accent"
+            class="hidden sm:block absolute top-[-0.75em] h-1 w-1 left-1/2 -translate-x-1/2 rounded-full bg-accent"
             aria-hidden="true"
           />
         </NuxtLink>
@@ -83,62 +244,16 @@ const isActive = (to: string) => route.path === localePath(to)
         <!-- Plain anchor, not NuxtLink: /storybook is a static build copied into public/,
              not a Nuxt route — a NuxtLink would try to client-side-route it through Vue
              Router and 404 instead of letting the browser fetch the static file. Label is
-             hardcoded (not i18n'd) since "Design System" reads the same in every locale. -->
+             hardcoded (not i18n'd) since "Design System" reads the same in every locale.
+             Hidden on mobile: the slider is scoped to real site sections, not a link out to
+             a separate static Storybook build — desktop keeps it in the rail as before. -->
         <a
           href="/storybook/"
-          class="[writing-mode:horizontal-tb] sm:[writing-mode:vertical-rl] sm:rotate-180 whitespace-nowrap font-mono text-base uppercase tracking-[0.15em] text-text-muted transition-colors duration-(--motion-duration-base) ease-mechanical hover:text-accent"
+          class="hidden sm:block [writing-mode:horizontal-tb] sm:[writing-mode:vertical-rl] sm:rotate-180 whitespace-nowrap font-mono text-base uppercase tracking-[0.15em] text-text-muted transition-colors duration-(--motion-duration-base) ease-mechanical hover:text-accent"
         >
           Design System
         </a>
       </nav>
-
-      <div class="order-2 sm:order-0 flex flex-row sm:flex-col items-center shrink-0 gap-4 sm:gap-5">
-        <nav
-          :aria-label="t('language.label')"
-          class="flex flex-row sm:flex-col items-center gap-2 font-mono text-base tracking-widest"
-        >
-          <NuxtLink
-            v-for="l in availableLocales"
-            :key="l.code"
-            :to="switchLocalePath(l.code)"
-            class="text-text-muted hover:text-accent"
-          >
-            {{ (l.code.split('-')[0] ?? l.code).toUpperCase() }}
-          </NuxtLink>
-        </nav>
-
-        <!--
-          ClientOnly: the persisted preference lives in localStorage, unavailable during SSR —
-          rendering a guessed state eagerly causes a hydration text mismatch (see
-          colorscheme.client.ts). The fallback keeps layout stable instead of an empty slot.
-        -->
-        <ClientOnly>
-          <button
-            type="button"
-            class="flex flex-row sm:flex-col items-center gap-2 p-0 font-mono text-[9px] tracking-[0.15em] text-text-muted bg-transparent border-none cursor-pointer hover:text-accent"
-            :aria-pressed="scheme === 'light'"
-            :aria-label="`${t('colorScheme.label')}: ${scheme === 'light' ? t('colorScheme.light') : t('colorScheme.dark')}`"
-            @click="toggleScheme"
-          >
-            <span
-              class="h-1.5 w-1.5 rounded-full"
-              :class="scheme === 'light' ? 'bg-accent' : 'bg-disabled-text'"
-            />
-            {{ scheme === 'light' ? 'LIGHT' : 'DARK' }}
-          </button>
-          <template #fallback>
-            <button
-              type="button"
-              class="flex flex-row sm:flex-col items-center gap-2 p-0 font-mono text-[9px] tracking-[0.15em] text-text-muted bg-transparent border-none cursor-pointer"
-              disabled
-              :aria-label="`${t('colorScheme.label')}: ${t('colorScheme.dark')}`"
-            >
-              <span class="h-1.5 w-1.5 rounded-full bg-disabled-text" />
-              DARK
-            </button>
-          </template>
-        </ClientOnly>
-      </div>
     </aside>
 
     <div class="flex flex-1 flex-col min-w-0 min-h-screen ml-0 sm:ml-9">
@@ -151,10 +266,16 @@ const isActive = (to: string) => route.path === localePath(to)
         <slot />
       </main>
 
-      <footer class="flex flex-wrap items-center gap-x-6 gap-y-3 w-full max-w-content mx-auto py-5 px-6 font-mono text-base text-text-muted border-t border-border">
+      <footer class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 w-full max-w-content mx-auto py-5 px-6 font-mono text-base text-text-muted border-t border-border">
         <p class="m-0">
           &copy; {{ new Date().getFullYear() }} Joao Dalla Rosa
         </p>
+        <a
+          href="mailto:joaofilipedallarosa@gmail.com"
+          class="text-accent transition-colors duration-(--motion-duration-base) ease-mechanical hover:text-accent-hover"
+        >
+          {{ t('footer.contactMe') }}
+        </a>
       </footer>
     </div>
 

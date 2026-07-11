@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 useSeoMeta({
   description: 'Personal publication and working lab — projects, posts, notes, and logs from Joao Dallarosa.',
 })
@@ -47,7 +49,7 @@ const techStack = [
         <div class="relative rounded-xs border border-glass-border-accent bg-glass-bg p-6 backdrop-blur-xl before:absolute before:-top-px before:-right-px before:h-3 before:w-3 before:border-t-2 before:border-r-2 before:border-accent before:opacity-80 before:content-[''] after:absolute after:-bottom-px after:-left-px after:h-3 after:w-3 after:border-b-2 after:border-l-2 after:border-accent after:opacity-80 after:content-[''] sm:max-w-136">
           <div class="mb-4 flex items-center gap-4">
             <p class="m-0 border-r border-r-glass-border pr-4 font-mono text-base uppercase tracking-[0.15em] text-text-muted">
-              Lead Frontend Engineer
+              {{ t('home.role') }}
             </p>
             <span
               class="mask-(--logo-src) mask-center mask-contain mask-no-repeat inline-block h-[1.2rem] w-auto shrink-0 bg-text [-webkit-mask-image:var(--logo-src)] [-webkit-mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat]"
@@ -58,20 +60,19 @@ const techStack = [
           </div>
 
           <p class="mb-5 font-mono text-base font-light leading-reading text-text">
-            I work with teams — of any size — to ship production-grade web experiences,
-            from reusable components to large-scale e-commerces.
+            {{ t('home.intro') }}
           </p>
 
           <div class="border-t border-t-glass-border pt-4">
             <p class="mb-3 font-mono text-base uppercase tracking-[0.15em] text-text-muted">
-              Shiped for
+              {{ t('home.shippedFor') }}
             </p>
             <LogoCarousel :items="shippedForBrands" />
           </div>
 
           <div class="mt-4">
             <p class="mb-3 font-mono text-base uppercase tracking-[0.15em] text-text-muted">
-              Tech I use
+              {{ t('home.techIUse') }}
             </p>
             <LogoCarousel :items="techStack" />
           </div>

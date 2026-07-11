@@ -4,6 +4,18 @@
     "posts": "Articles",
     "projects": "Projets"
   },
+  "home": {
+    "role": "Lead Frontend Engineer",
+    "intro": "Je travaille avec des équipes — de toutes tailles — pour livrer des expériences web de qualité production, des composants réutilisables aux e-commerces à grande échelle.",
+    "shippedFor": "Livré pour",
+    "techIUse": "Technologies utilisées"
+  },
+  "footer": {
+    "contactMe": "Me contacter"
+  },
+  "entry": {
+    "backTo": "Retour aux {section}"
+  },
   "language": {
     "label": "Langue"
   },
