@@ -35,11 +35,11 @@ He looks me in the eye smiling and says:
 
 That was several years ago.
 
-I'm writing this after showing some personal projects to colleagues at work and it got me thinking about starting to write and share what I'm doing.
+I'm writing this after showing some personal projects to colleagues and reflecting on how that makes me feel.
 
-Showing things I've built makes me excited, as if I am sharing the feeling I felt while doing that thing.
+It lights me up, like I can transmit the feeling I felt while creating whatever it is I'm showing.
 
-Some people get it, others don't, that's ok.
+But it is also scary and vulnerable.
 
 > But if I don't share what I can do, tell my story, then who will ?
 
