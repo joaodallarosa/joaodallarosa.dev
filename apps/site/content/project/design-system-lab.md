@@ -16,7 +16,7 @@ stack:
   - TypeScript
   - Custom Elements
   - Storybook
-status: published
+status: draft
 tags:
   - web-components
   - storybook

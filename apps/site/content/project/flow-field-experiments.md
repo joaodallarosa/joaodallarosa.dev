@@ -13,7 +13,7 @@ stack:
   - p5.js
   - TypeScript
   - Canvas
-status: published
+status: draft
 tags:
   - p5js
   - generative-art

@@ -3,7 +3,7 @@ title: Why I'm writing this in public
 description: The short reasoning behind publishing project write-ups and working notes as they happen, rather than only after the fact.
 slug: why-im-writing-this-in-public
 date: 2026-05-10
-status: published
+status: draft
 locale: en
 tags:
   - meta

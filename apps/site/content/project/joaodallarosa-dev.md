@@ -3,7 +3,7 @@ title: joaodallarosa.dev
 description: This site — a Nuxt-powered, three-language personal blog and lab, editable in production via Nuxt Studio.
 slug: joaodallarosa-dev
 date: 2026-07-01
-status: published
+status: draft
 locale: en
 tags:
   - nuxt

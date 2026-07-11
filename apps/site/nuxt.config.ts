@@ -58,6 +58,11 @@ export default defineNuxtConfig({
     '/**': { prerender: true },
     '/_studio/**': { prerender: false },
     '/api/**': { prerender: false },
+    // /storybook is a static build in public/ (see scripts/copy-storybook.mjs), not a Nuxt
+    // route. Without the trailing slash, the browser resolves the Storybook shell's relative
+    // asset paths (./sb-manager/runtime.js etc.) against site root instead of /storybook/,
+    // 404ing every asset and leaving the page blank — so force the canonical form.
+    '/storybook': { redirect: { to: '/storybook/', statusCode: 308 } },
   },
   compatibilityDate: '2025-07-15',
   vite: {
@@ -94,6 +99,10 @@ export default defineNuxtConfig({
       owner: 'joaodallarosa',
       repo: 'joaodallarosa.dev',
       branch: 'main',
+      // This is a monorepo — without this, nuxt-studio assumes content/ lives at the
+      // repo root and commits edits there instead of to apps/site/content/, silently
+      // orphaning them (see docs/studio-setup.md conflict incident, 2026-07-11).
+      rootDir: 'apps/site',
     },
   },
 })

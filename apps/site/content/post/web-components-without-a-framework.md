@@ -3,7 +3,7 @@ title: Web components without a framework
 description: Why this site's design system is four plain Custom Elements — no Lit, no reactive-property framework — and what that trades away.
 slug: web-components-without-a-framework
 date: 2026-06-05
-status: published
+status: draft
 locale: en
 tags:
   - web-components

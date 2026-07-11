@@ -8,7 +8,7 @@ description: Notes on the Clifford-attractor flow field behind the homepage hero
 kind: post
 locale: en
 slug: building-a-flow-field-background
-status: published
+status: draft
 tags:
   - p5js
   - canvas
@@ -16,6 +16,8 @@ tags:
 ---
 
 Mock content for layout verification — not a real post yet.
+
+Test
 
 The homepage background is a small p5.js sketch, not a pre-rendered video or a CSS animation. Every frame it steps a grid of particles through a Clifford-attractor vector field, leaving faint trails that slowly fade rather than being cleared outright. That fade is what gives the motion its "ink in water" quality instead of a hard, mechanical redraw.
 
