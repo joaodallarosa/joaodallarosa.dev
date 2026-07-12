@@ -151,7 +151,17 @@ class Particle {
 
 export default async function mount(container: HTMLElement): Promise<SketchHandle> {
   const [{ default: P5 }, Tone] = await Promise.all([import('p5'), import('tone')])
-  await Tone.start()
+
+  // Chrome/Safari refuse to resume an AudioContext without a real user gesture, and its
+  // resume() promise then never settles — for the click-to-run gate that gesture is the click
+  // itself, but `autoStart` sketches (this one, as a project hero) skip that click, so awaiting
+  // Tone.start() here would hang forever and the visual sketch below would never mount. Fire it
+  // without blocking on it instead, and keep retrying on the page's first pointer/key interaction
+  // (anywhere, not just this canvas) so sound unlocks as soon as one actually happens.
+  const unlockAudio = () => void Tone.start()
+  unlockAudio()
+  window.addEventListener('pointerdown', unlockAudio)
+  window.addEventListener('keydown', unlockAudio)
 
   const limiter = new Tone.Limiter(-1).toDestination()
   const playerMap: Record<string, string> = {}
@@ -277,6 +287,8 @@ export default async function mount(container: HTMLElement): Promise<SketchHandl
 
   return {
     destroy: () => {
+      window.removeEventListener('pointerdown', unlockAudio)
+      window.removeEventListener('keydown', unlockAudio)
       instance.remove()
       backgroundPlayer.stop()
       backgroundPlayer.dispose()

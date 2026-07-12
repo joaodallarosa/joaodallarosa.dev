@@ -5,7 +5,7 @@ import { projectSketchRegistry } from '~/sketches'
 
 // Usable from markdown content as `::p5js-sketch{sketch="anxiety-tree"}` — see
 // app/sketches/index.ts for the registry of available slugs. `aspect="wide"` is for sketches
-// that expect a rectangular canvas (e.g. clinamen) rather than the default square tile.
+// that expect a rectangular canvas rather than the default square tile.
 // `auto-start` skips the click gate and mounts on load (see onMounted below) — use sparingly,
 // e.g. a project's hero sketch, since it still pulls in p5 (~300KB) on first paint.
 const props = withDefaults(defineProps<{
