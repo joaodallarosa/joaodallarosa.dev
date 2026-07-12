@@ -27,16 +27,27 @@ const failed = ref(false)
 const devModeSupported = ref(false)
 const devModeActive = ref(false)
 let handle: SketchHandle | undefined
+// Set on unmount and re-checked after each await below — start() spans two async gaps
+// (the sketch chunk's dynamic import, then the sketch's own p5/Tone setup), and if the
+// component unmounts mid-flight the container ref goes null before those resolve.
+let destroyed = false
 
 async function start() {
-  if (started.value || !containerRef.value) return
+  if (started.value || destroyed || !containerRef.value) return
+  const container = containerRef.value
   const loadSketch = projectSketchRegistry[props.sketch]
   if (!loadSketch) {
     failed.value = true
     return
   }
   const { default: mount } = await loadSketch()
-  handle = await mount(containerRef.value)
+  if (destroyed) return
+  const mounted = await mount(container)
+  if (destroyed) {
+    mounted.destroy()
+    return
+  }
+  handle = mounted
   devModeSupported.value = !!handle.toggleDevMode
   devModeActive.value = false
   started.value = true
@@ -64,7 +75,10 @@ onMounted(() => {
   }
 })
 
-onBeforeUnmount(() => handle?.destroy())
+onBeforeUnmount(() => {
+  destroyed = true
+  handle?.destroy()
+})
 </script>
 
 <template>

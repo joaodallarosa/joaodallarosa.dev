@@ -158,7 +158,14 @@ export default async function mount(container: HTMLElement): Promise<SketchHandl
   for (let i = 0; i < PLAYERS_POOL; i++) {
     playerMap[`hit${i}`] = PLATE_SOUNDS[Math.floor(Math.random() * PLATE_SOUNDS.length)]!
   }
-  const players = new Tone.Players(playerMap).connect(limiter)
+  // Plate audio decodes over the network after this constructor returns — collisions can
+  // start happening (t=0 particles already overlapping) before that finishes, so gate
+  // playChime on the `onload` callback rather than calling player.start() on an unloaded buffer.
+  let soundReady = false
+  function markSoundReady() {
+    soundReady = true
+  }
+  const players = new Tone.Players(playerMap, markSoundReady).connect(limiter)
   const backgroundPlayer = new Tone.Player({
     url: '/audio/sketches/water.mp3',
     autostart: true,
@@ -168,6 +175,7 @@ export default async function mount(container: HTMLElement): Promise<SketchHandl
 
   let playerIndex = 0
   function playChime(volumeDb: number) {
+    if (!soundReady) return
     const key = `hit${playerIndex}`
     playerIndex = (playerIndex + 1) % PLAYERS_POOL
     const player = players.player(key)
