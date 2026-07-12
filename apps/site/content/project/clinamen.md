@@ -1,7 +1,7 @@
 ---
 title: Clinamen Web
 date: 2026-07-12
-description: An homage to French artist Céleste Boursier-Mougenot's installation of the same name.
+description: An homage to French artist Céleste Boursier-Mougenot's installation
 kind: project
 locale: en
 seo:
