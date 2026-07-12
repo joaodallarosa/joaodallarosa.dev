@@ -2,7 +2,7 @@
 title: Raising my hand
 date: 2026-07-11
 description: and why I decided to write here
-kind: post
+kind: note
 locale: en
 seo:
   title: Why I'm writing this in public

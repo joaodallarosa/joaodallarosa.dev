@@ -13,7 +13,7 @@ const { scheme, toggle: toggleScheme } = useColorScheme()
 
 const navItems = [
   { to: '/', labelKey: 'nav.home' },
-  { to: '/post', labelKey: 'nav.posts' },
+  { to: '/note', labelKey: 'nav.notes' },
   { to: '/project', labelKey: 'nav.projects' },
 ] as const
 

@@ -33,7 +33,7 @@
 
   /* Kind badges — desaturated, distinct from the accent */
   --color-kind-project: #6ea8d8;
-  --color-kind-post: #4fb6a6;
+  --color-kind-note: #4fb6a6;
 
   /* Surface / text roles (dark, default) */
   --color-bg: var(--color-neutral-950);

@@ -19,14 +19,6 @@ const srLabel = computed(() => {
 <template>
   <div class="group flex items-center gap-4">
     <span class="sr-only">{{ srLabel }}</span>
-
-    <!-- Shared recolor technique with .brand-logo below: every source logo/icon comes in
-         whatever color (or none) the original ships in — a CSS mask driven by --logo-src
-         replaces that with one currentColor-ish fill, so the strip reads as one system and
-         stays correct across the light/dark toggle (a hardcoded invert() filter would go
-         invisible against a light background). Height is fixed and width comes from each
-         item's real aspect-ratio (passed in, not guessed), so a flat wordmark like Giorgio
-         Armani's isn't squeezed into a fixed box and shrunk to a sliver. -->
     <span
       v-if="pinned"
       class="mask-(--logo-src) mask-center mask-contain mask-no-repeat inline-block h-[26px] w-auto shrink-0 border-r border-r-glass-border bg-text pr-4 opacity-90 [-webkit-mask-image:var(--logo-src)] [-webkit-mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat]"
@@ -49,7 +41,7 @@ const srLabel = computed(() => {
           <span
             v-for="item in items"
             :key="`${rep}-${item.name}`"
-            class="mask-(--logo-src) mask-center mask-contain mask-no-repeat inline-block h-[22px] w-auto shrink-0 bg-text-muted opacity-60 transition-opacity duration-(--motion-duration-base) ease-mechanical [-webkit-mask-image:var(--logo-src)] [-webkit-mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] group-hover:opacity-90"
+            class="mask-(--logo-src) mask-center mask-contain mask-no-repeat inline-block h-[32px] w-auto shrink-0 bg-text-muted opacity-60 transition-opacity duration-(--motion-duration-base) ease-mechanical [-webkit-mask-image:var(--logo-src)] [-webkit-mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] group-hover:opacity-90"
             :style="{ '--logo-src': `url(${item.src})`, 'aspect-ratio': item.ratio }"
           />
         </div>

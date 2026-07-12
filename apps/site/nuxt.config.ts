@@ -65,9 +65,9 @@ export default defineNuxtConfig({
   // route, Nitro's crawler had nothing to start from and prerendered zero pages (confirmed via
   // a local `VERCEL=1 pnpm build`: only the two @nuxt/content sql-dump assets got prerendered,
   // not even `/`). That's what caused the reported production 404-on-reload for entry pages
-  // like /post/raising-my-hand — every request fell through to the live SSR function instead
+  // like /note/raising-my-hand — every request fell through to the live SSR function instead
   // of a static file, and that request path relies on nitro-nuxt/content's runtime dump-fetch
-  // working. Seeding `/` here lets the crawler follow the real nav/listing links (home → /post,
+  // working. Seeding `/` here lets the crawler follow the real nav/listing links (home → /note,
   // /project → each entry) so every published route gets a static file at build time.
   nitro: {
     prerender: {
@@ -75,7 +75,7 @@ export default defineNuxtConfig({
       crawlLinks: true,
       // The crawl legitimately hits a couple of expected-404 links it can't avoid following:
       // i18n's automatic hreflang alternate tags advertise a /fr/ and /pt-BR/ URL for every
-      // entry even when that specific post/project has no translation yet (only the locale(s)
+      // entry even when that specific note/project has no translation yet (only the locale(s)
       // actually authored should 200 — this is correct runtime behavior, not a bug to silence),
       // and /storybook/ is a plain anchor to a static build outside Nuxt's own routing that the
       // crawler still visits since it's a same-origin link. Neither should abort the whole

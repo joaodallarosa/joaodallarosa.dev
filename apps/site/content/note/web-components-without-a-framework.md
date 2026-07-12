@@ -9,11 +9,11 @@ tags:
   - web-components
   - design-systems
 cover:
-  src: /images/mock/post-web-components.svg
-  alt: Placeholder mock cover for the web components post.
+  src: /images/mock/note-web-components.svg
+  alt: Placeholder mock cover for the web components note.
 ---
 
-Mock content for layout verification — not a real post yet.
+Mock content for layout verification — not a real note yet.
 
 Four components — a button, a tag, a badge, and a card — make up the whole design system, and none of them need much reactivity: an attribute changes, a small part of the shadow root updates, done. That's a good fit for the plain Custom Elements API directly: `static observedAttributes`, `attributeChangedCallback`, a shadow root built once in the constructor.
 

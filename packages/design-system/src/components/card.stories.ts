@@ -3,7 +3,7 @@ import './card.js'
 import './badge.js'
 
 interface CardArgs {
-  kind?: 'project' | 'post'
+  kind?: 'project' | 'note'
   title: string
   body: string
   footer: string
@@ -26,14 +26,14 @@ const meta: Meta<CardArgs> = {
   argTypes: {
     kind: {
       control: 'select',
-      options: [undefined, 'project', 'post'],
+      options: [undefined, 'project', 'note'],
     },
     title: { control: 'text' },
     body: { control: 'text' },
     footer: { control: 'text' },
   },
   args: {
-    kind: 'post',
+    kind: 'note',
     title: 'Refinishing the workbench',
     body: 'Stripped, sanded, and re-oiled the shop workbench over a long weekend.',
     footer: '2026-07-02 · woodworking',

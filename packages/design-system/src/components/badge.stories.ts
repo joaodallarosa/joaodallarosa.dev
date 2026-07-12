@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components'
 import './badge.js'
 
 interface BadgeArgs {
-  kind?: 'project' | 'post'
+  kind?: 'project' | 'note'
   status?: 'draft' | 'published'
   label: string
 }
@@ -24,7 +24,7 @@ const meta: Meta<BadgeArgs> = {
   argTypes: {
     kind: {
       control: 'select',
-      options: [undefined, 'project', 'post'],
+      options: [undefined, 'project', 'note'],
     },
     status: {
       control: 'select',
@@ -59,7 +59,7 @@ export const AllKinds: Story = {
   render: () => `
     <div style="display: flex; gap: var(--space-3);">
       <ds-badge kind="project">project</ds-badge>
-      <ds-badge kind="post">post</ds-badge>
+      <ds-badge kind="note">note</ds-badge>
     </div>
   `,
 }

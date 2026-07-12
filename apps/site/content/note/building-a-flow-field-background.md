@@ -1,11 +1,11 @@
 ---
 title: Building a flow-field background with p5.js
 cover:
-  src: /images/mock/post-flow-field.svg
-  alt: Placeholder mock cover for the flow-field background post.
+  src: /images/mock/note-flow-field.svg
+  alt: Placeholder mock cover for the flow-field background note.
 date: 2026-06-20
 description: Notes on the Clifford-attractor flow field behind the homepage hero, and why it's drawn on canvas instead of shipped as a video.
-kind: post
+kind: note
 locale: en
 slug: building-a-flow-field-background
 status: draft
@@ -15,7 +15,7 @@ tags:
   - homepage
 ---
 
-Mock content for layout verification — not a real post yet.
+Mock content for layout verification — not a real note yet.
 
 Test
 

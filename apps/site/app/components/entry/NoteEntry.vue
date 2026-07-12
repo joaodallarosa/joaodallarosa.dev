@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { PostCollectionItem } from '@nuxt/content'
+import type { NoteCollectionItem } from '@nuxt/content'
 
-const props = defineProps<{ entry: PostCollectionItem }>()
+const props = defineProps<{ entry: NoteCollectionItem }>()
 
 const { locale } = useI18n()
 
 // Rough placeholder: word count from rendered body isn't available pre-render,
-// refine once real post bodies exist and rendering performance is measured.
+// refine once real note bodies exist and rendering performance is measured.
 const readingTimeMinutes = computed(() => Math.max(1, Math.round((props.entry.body?.value?.length ?? 0) / 100)))
 
 const formattedDate = computed(() => new Date(props.entry.date).toLocaleDateString(locale.value, {
@@ -22,7 +22,7 @@ const formattedDate = computed(() => new Date(props.entry.date).toLocaleDateStri
       Draft
     </p>
     <header
-      v-if="entry.cover"
+      v-if="entry.cover?.src"
       class="mb-6 overflow-hidden rounded-lg sm:mb-8"
     >
       <NuxtImg
@@ -46,7 +46,7 @@ const formattedDate = computed(() => new Date(props.entry.date).toLocaleDateStri
       {{ formattedDate }} · {{ readingTimeMinutes }} min read
     </p>
 
-    <!-- Table of contents hook point: render from entry.body.toc once real long-form posts exist -->
+    <!-- Table of contents hook point: render from entry.body.toc once real long-form notes exist -->
 
     <ContentRenderer :value="entry" />
   </article>

@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import type { PostCollectionItem } from '@nuxt/content'
+import type { NoteCollectionItem } from '@nuxt/content'
 
 definePageMeta({ layout: 'content' })
 
 const { t, locale } = useI18n()
 
-const { data: posts } = await useAsyncData(`post-list-${locale.value}`, () =>
-  queryCollection('post')
+const { data: notes } = await useAsyncData(`note-list-${locale.value}`, () =>
+  queryCollection('note')
     .where('status', '=', 'published')
     .where('locale', '=', locale.value)
     .order('date', 'DESC')
     .all(),
 )
 
-function readingTime(entry: PostCollectionItem) {
+function readingTime(entry: NoteCollectionItem) {
   return Math.max(1, Math.round((entry.body?.value?.length ?? 0) / 100))
 }
 
-function formattedDate(entry: PostCollectionItem) {
+function formattedDate(entry: NoteCollectionItem) {
   return new Date(entry.date).toLocaleDateString(locale.value, {
     year: 'numeric',
     month: 'short',
@@ -26,7 +26,7 @@ function formattedDate(entry: PostCollectionItem) {
 }
 
 useSeoMeta({
-  title: () => t('nav.posts'),
+  title: () => t('nav.notes'),
   description: 'Writing on code, design systems, and whatever else is on the workbench.',
 })
 </script>
@@ -34,11 +34,11 @@ useSeoMeta({
 <template>
   <div class="py-8 sm:py-12">
     <h1 class="mb-8 font-serif text-xl text-text sm:mb-12">
-      {{ t('nav.posts') }}
+      {{ t('nav.notes') }}
     </h1>
 
     <p
-      v-if="!posts?.length"
+      v-if="!notes?.length"
       class="font-mono text-base text-text-muted"
     >
       Nothing published yet.
@@ -49,17 +49,17 @@ useSeoMeta({
       class="flex flex-col divide-y divide-border"
     >
       <li
-        v-for="post in posts"
-        :key="post.path"
+        v-for="note in notes"
+        :key="note.path"
       >
         <NuxtLink
-          :to="post.path"
+          :to="note.path"
           class="group flex flex-col gap-4 py-8 first:pt-0 sm:flex-row sm:gap-6"
         >
           <NuxtImg
-            v-if="post.cover"
-            :src="post.cover.src"
-            :alt="post.cover.alt"
+            v-if="note.cover"
+            :src="note.cover.src"
+            :alt="note.cover.alt"
             width="240"
             height="126"
             loading="lazy"
@@ -67,13 +67,13 @@ useSeoMeta({
           />
           <div class="flex flex-col gap-2">
             <h2 class="font-serif text-lg leading-headline text-text transition-colors group-hover:text-accent">
-              {{ post.title }}
+              {{ note.title }}
             </h2>
             <p class="font-serif text-base leading-reading text-text-muted">
-              {{ post.description }}
+              {{ note.description }}
             </p>
             <p class="font-mono text-base uppercase tracking-wide text-text-muted">
-              {{ formattedDate(post) }} · {{ readingTime(post) }} min read
+              {{ formattedDate(note) }} · {{ readingTime(note) }} min read
             </p>
           </div>
         </NuxtLink>

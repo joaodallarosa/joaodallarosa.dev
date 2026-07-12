@@ -1,4 +1,4 @@
-export type BadgeKind = 'project' | 'post'
+export type BadgeKind = 'project' | 'note'
 export type BadgeStatus = 'draft' | 'published'
 
 const styles = `
@@ -26,9 +26,9 @@ const styles = `
     color: var(--color-kind-project, #6ea8d8);
   }
 
-  .root[data-kind='post'] {
-    background: color-mix(in srgb, var(--color-kind-post, #4fb6a6) 16%, transparent);
-    color: var(--color-kind-post, #4fb6a6);
+  .root[data-kind='note'] {
+    background: color-mix(in srgb, var(--color-kind-note, #4fb6a6) 16%, transparent);
+    color: var(--color-kind-note, #4fb6a6);
   }
 
   .root[data-status='draft'] {

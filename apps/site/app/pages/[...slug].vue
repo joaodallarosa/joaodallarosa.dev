@@ -14,12 +14,20 @@ if (!entry.value) {
   throw createError({ statusCode: 404, statusMessage: 'Entry not found' })
 }
 
-const backTo = computed(() => entry.value?.kind === 'project' ? '/project' : '/post')
+const backTo = computed(() => entry.value?.kind === 'project' ? '/project' : '/note')
 const backLabel = computed(() => t('entry.backTo', {
-  section: t(entry.value?.kind === 'project' ? 'nav.projects' : 'nav.posts'),
+  section: t(entry.value?.kind === 'project' ? 'nav.projects' : 'nav.notes'),
 }))
 
 const canonicalUrl = computed(() => new URL(route.path, requestUrl.origin).toString())
+
+// Fall back to the project's grid thumbnail for social sharing when it has no
+// in-page hero (`cover`) of its own — e.g. entries whose visual is a live sketch.
+const socialImage = computed(() => {
+  if (!entry.value) return undefined
+  const image = entry.value.cover ?? (entry.value.kind === 'project' ? entry.value.thumbnail : undefined)
+  return image ? new URL(image.src, requestUrl.origin).toString() : undefined
+})
 
 useSeoMeta({
   title: () => entry.value?.title,
@@ -28,7 +36,7 @@ useSeoMeta({
   ogDescription: () => entry.value?.description,
   ogType: 'article',
   ogUrl: canonicalUrl,
-  ogImage: () => entry.value?.cover ? new URL(entry.value.cover.src, requestUrl.origin).toString() : undefined,
+  ogImage: socialImage,
 })
 
 useHead({
@@ -49,8 +57,8 @@ useHead({
       v-if="entry.kind === 'project'"
       :entry="entry"
     />
-    <EntryPostEntry
-      v-else-if="entry.kind === 'post'"
+    <EntryNoteEntry
+      v-else-if="entry.kind === 'note'"
       :entry="entry"
     />
   </div>

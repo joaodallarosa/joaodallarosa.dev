@@ -2,21 +2,23 @@
 const { t } = useI18n()
 
 useSeoMeta({
-  description: 'Personal publication and working lab — projects, posts, notes, and logs from Joao Dallarosa.',
+  description: 'Personal publication and working lab — projects, notes, and logs from Joao Dallarosa.',
 })
 
-const featuredBrand = { name: 'Valtech', src: '/images/brands/valtech.svg', ratio: 159 / 36 }
+const baseBrandRatio = 4 / 1
+
+const featuredBrand = { name: 'Valtech', src: '/images/brands/valtech.svg', ratio: baseBrandRatio }
 
 const shippedForBrands = [
-  { name: 'Louis Vuitton', src: '/images/brands/louis-vuitton.png', ratio: 4610 / 590 },
-  { name: 'L’Oréal', src: '/images/brands/loreal.svg', ratio: 800 / 144.748 },
-  { name: 'Lancôme', src: '/images/brands/lancome.svg', ratio: 156.78157 / 37.101406 },
-  { name: 'Redken', src: '/images/brands/redken.svg', ratio: 189.7150896 / 52.2279596 },
-  { name: 'Giorgio Armani', src: '/images/brands/giorgio-armani.svg', ratio: 285.52 / 31.739 },
-  { name: 'Yves Saint Laurent', src: '/images/brands/ysl.svg', ratio: 576.2217 / 120.1528 },
-  { name: 'Garnier', src: '/images/brands/garnier.svg', ratio: 1962 / 470 },
-  { name: 'Maybelline', src: '/images/brands/maybelline.svg', ratio: 241 / 53 },
-  { name: 'La Roche-Posay', src: '/images/brands/la-roche-posay.svg', ratio: 283.84399 / 121.631 },
+  { name: 'Louis Vuitton', src: '/images/brands/louis-vuitton.png', ratio: 8 / 1 },
+  { name: 'L’Oréal', src: '/images/brands/loreal.svg', ratio: baseBrandRatio },
+  { name: 'Lancôme', src: '/images/brands/lancome.svg', ratio: baseBrandRatio },
+  { name: 'Redken', src: '/images/brands/redken.svg', ratio: baseBrandRatio },
+  { name: 'Giorgio Armani', src: '/images/brands/giorgio-armani.svg', ratio: 7 / 1 },
+  { name: 'Yves Saint Laurent', src: '/images/brands/ysl.svg', ratio: baseBrandRatio },
+  { name: 'Garnier', src: '/images/brands/garnier.svg', ratio: baseBrandRatio },
+  { name: 'Maybelline', src: '/images/brands/maybelline.svg', ratio: baseBrandRatio },
+  { name: 'La Roche-Posay', src: '/images/brands/la-roche-posay.svg', ratio: baseBrandRatio },
 ]
 
 const techStack = [
@@ -28,6 +30,10 @@ const techStack = [
   { name: 'Vite', src: '/images/tech/vite.svg', ratio: 1 },
   { name: 'Storybook', src: '/images/tech/storybook.svg', ratio: 1 },
   { name: 'Git', src: '/images/tech/git.svg', ratio: 1 },
+  { name: 'Figma', src: '/images/tech/figma.svg', ratio: 1 },
+  { name: 'GitHub Copilot', src: '/images/tech/githubcopilot.svg', ratio: 1 },
+  { name: 'Claude', src: '/images/tech/claude.svg', ratio: 1 },
+  { name: 'Tailwind CSS', src: '/images/tech/tailwindcss.svg', ratio: 1 },
 ]
 </script>
 
@@ -46,7 +52,7 @@ const techStack = [
       </h1>
 
       <div class="flex flex-col sm:flex-row sm:justify-end">
-        <div class="relative rounded-xs border border-glass-border-accent bg-glass-bg p-6 backdrop-blur-xl before:absolute before:-top-px before:-right-px before:h-3 before:w-3 before:border-t-2 before:border-r-2 before:border-accent before:opacity-80 before:content-[''] after:absolute after:-bottom-px after:-left-px after:h-3 after:w-3 after:border-b-2 after:border-l-2 after:border-accent after:opacity-80 after:content-[''] sm:max-w-136">
+        <div class="relative rounded-xs border border-glass-border-accent bg-glass-bg p-6 backdrop-blur-xl before:absolute before:-top-px before:-right-px before:h-3 before:w-3 before:border-t-2 before:border-r-2 before:border-accent before:opacity-80 before:content-[''] after:absolute after:-bottom-px after:-left-px after:h-3 after:w-3 after:border-b-2 after:border-l-2 after:border-accent after:opacity-80 after:content-[''] sm:max-w-[50vw]">
           <div class="mb-4 flex items-center gap-4">
             <p class="m-0 border-r border-r-glass-border pr-4 font-mono text-base uppercase tracking-[0.15em] text-text-muted">
               {{ t('home.role') }}

@@ -48,7 +48,7 @@
 
   /* Kind badges */
   --color-kind-project: var(--color-kind-project);
-  --color-kind-post: var(--color-kind-post);
+  --color-kind-note: var(--color-kind-note);
 
   /* Surface / text / interactive roles — these are the ones that flip under
      :root[data-color-scheme='light'], which is exactly why `inline` matters here. */

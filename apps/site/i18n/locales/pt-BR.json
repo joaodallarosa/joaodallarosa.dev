@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Início",
-    "posts": "Posts",
+    "notes": "Notas",
     "projects": "Projetos"
   },
   "home": {
@@ -14,7 +14,7 @@
     "contactMe": "Fale comigo"
   },
   "entry": {
-    "backTo": "Voltar para os {section}"
+    "backTo": "Voltar para {section}"
   },
   "language": {
     "label": "Idioma"

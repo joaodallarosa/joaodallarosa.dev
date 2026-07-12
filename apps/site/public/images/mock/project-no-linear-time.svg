@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <rect width="800" height="800" fill="#241a12" />
+  <g font-family="serif" font-size="46" fill="#ffb000" opacity="0.85">
+    <text x="230" y="360">n</text>
+    <text x="290" y="340">o</text>
+    <text x="350" y="380">l</text>
+    <text x="400" y="330">i</text>
+    <text x="440" y="370">n</text>
+    <text x="500" y="345">e</text>
+    <text x="550" y="385">a</text>
+  </g>
+  <line x1="230" y1="460" x2="570" y2="460" stroke="#ffc94d" stroke-width="1.5" opacity="0.4" />
+</svg>

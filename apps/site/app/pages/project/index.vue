@@ -13,12 +13,15 @@ const { data: projects } = await useAsyncData(`project-list-${locale.value}`, ()
     .all(),
 )
 
-function formattedDate(entry: ProjectCollectionItem) {
-  return new Date(entry.date).toLocaleDateString(locale.value, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
+// Grid tiles use `thumbnail` when set, falling back to `cover` for projects that haven't
+// defined a dedicated one. Square images by convention, but the src can point at a
+// .mp4/.webm instead to show a looping clip in the tile.
+function tileImage(project: ProjectCollectionItem) {
+  return project.thumbnail ?? project.cover
+}
+
+function isVideoCover(project: ProjectCollectionItem) {
+  return /\.(?:mp4|webm)$/i.test(tileImage(project)?.src ?? '')
 }
 
 useSeoMeta({
@@ -42,7 +45,7 @@ useSeoMeta({
 
     <ul
       v-else
-      class="flex flex-col divide-y divide-border"
+      class="grid grid-cols-2 gap-1 sm:grid-cols-3 sm:gap-2"
     >
       <li
         v-for="project in projects"
@@ -50,43 +53,31 @@ useSeoMeta({
       >
         <NuxtLink
           :to="project.path"
-          class="group flex flex-col gap-4 py-8 first:pt-0 sm:flex-row sm:gap-6"
+          class="group relative block aspect-square overflow-hidden bg-bg-raised"
         >
-          <NuxtImg
-            v-if="project.cover"
-            :src="project.cover.src"
-            :alt="project.cover.alt"
-            width="240"
-            height="126"
-            loading="lazy"
-            class="aspect-1200/630 w-full shrink-0 rounded-sm border border-border object-cover sm:w-60"
+          <video
+            v-if="tileImage(project)?.src && isVideoCover(project)"
+            :src="tileImage(project)!.src"
+            class="h-full w-full object-cover"
+            autoplay
+            muted
+            loop
+            playsinline
           />
-          <div class="flex flex-col gap-2">
-            <h2 class="font-serif text-lg leading-headline text-text transition-colors group-hover:text-accent">
+          <NuxtImg
+            v-else-if="tileImage(project)?.src"
+            :src="tileImage(project)!.src"
+            :alt="tileImage(project)!.alt"
+            loading="lazy"
+            class="h-full w-full object-cover"
+          />
+          <span
+            class="absolute inset-0 flex items-end bg-black/40 p-3 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+          >
+            <span class="font-serif text-sm leading-headline text-white">
               {{ project.title }}
-            </h2>
-            <p class="font-serif text-base leading-reading text-text-muted">
-              {{ project.description }}
-            </p>
-            <p
-              v-if="project.role"
-              class="font-mono text-base uppercase tracking-wide text-text-muted"
-            >
-              {{ formattedDate(project) }}<template v-if="project.role"> · {{ project.role }}</template>
-            </p>
-            <ul
-              v-if="project.stack?.length"
-              class="flex flex-wrap gap-2"
-            >
-              <li
-                v-for="tech in project.stack"
-                :key="tech"
-                class="rounded-full border border-border px-3 py-1 font-mono text-base text-text-muted"
-              >
-                {{ tech }}
-              </li>
-            </ul>
-          </div>
+            </span>
+          </span>
         </NuxtLink>
       </li>
     </ul>
